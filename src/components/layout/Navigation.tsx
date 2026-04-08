@@ -54,7 +54,7 @@ function NavLink({ href, children, isActive, isScrolled }: NavLinkProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        'relative px-4 py-2 text-sm font-medium transition-all duration-300',
+        'relative px-3 py-2 text-sm font-medium transition-all duration-300 leading-none whitespace-nowrap',
         isScrolled 
           ? 'text-text/70 hover:text-text' 
           : 'text-white/70 hover:text-white',
@@ -136,20 +136,20 @@ export default function Navigation() {
       <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden md:block">
         <nav
           className={cn(
-            'flex items-center justify-between rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
+            'flex items-baseline justify-between rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
             'backdrop-blur-xl border shadow-lg',
             navIsScrolled 
-              ? 'px-5 py-2 bg-white/95 border-gray-200/50 shadow-xl' 
-              : 'px-7 py-3 bg-white/[0.07] border-white/[0.15] shadow-black/5'
+              ? 'px-5 py-3 bg-white/95 border-gray-200/50 shadow-xl' 
+              : 'px-6 py-4 bg-white/[0.07] border-white/[0.15] shadow-black/5'
           )}
-          style={{ minWidth: navIsScrolled ? '600px' : '680px' }}
+          style={{ minWidth: navIsScrolled ? '840px' : '920px' }}
         >
           {/* Logo */}
           <Link 
             href="/" 
             className={cn(
-              'transition-all duration-300 flex items-center gap-2',
-              navIsScrolled ? 'h-8' : 'h-10'
+              'transition-all duration-300 flex items-baseline gap-2 flex-shrink-0',
+              navIsScrolled ? 'h-7' : 'h-8'
             )}
           >
             <img 
@@ -166,7 +166,7 @@ export default function Navigation() {
             />
             <span 
               className={cn(
-                'font-heading font-bold text-lg tracking-tight',
+                'font-heading font-bold text-base tracking-tight leading-none',
                 navIsScrolled ? 'text-text' : 'text-white'
               )}
             >
@@ -174,8 +174,8 @@ export default function Navigation() {
             </span>
           </Link>
 
-          {/* Nav Links */}
-          <div className="flex items-center">
+          {/* Nav Links - Using items-baseline for proper alignment */}
+          <div className="flex items-baseline gap-1">
             {navLinks.map((item) => (
               <div key={item.name} className="relative">
                 {item.hasDropdown ? (
@@ -186,17 +186,14 @@ export default function Navigation() {
                   >
                     <button
                       className={cn(
-                        'flex items-center gap-1 px-4 py-2 text-sm font-medium transition-all duration-300',
+                        'flex items-baseline gap-1 px-3 py-2 text-sm font-medium transition-all duration-300 leading-none whitespace-nowrap',
                         navIsScrolled
                           ? 'text-text/70 hover:text-text'
                           : 'text-white/70 hover:text-white',
                         isServicesOpen && (navIsScrolled ? 'text-text' : 'text-white'),
                         isActive('/tjanster/') && (navIsScrolled ? 'text-text' : 'text-white')
                       )}
-                      style={{ 
-                        letterSpacing: '0.06em',
-                        fontSize: navIsScrolled ? '11px' : '12px'
-                      }}
+                      style={{ letterSpacing: '0.06em' }}
                     >
                       {item.name}
                       <ChevronDown
@@ -274,12 +271,11 @@ export default function Navigation() {
             ref={ctaRef}
             href={siteConfig.cta.href}
             className={cn(
-              'group relative flex items-center gap-2 px-5 py-2.5 ml-2 rounded-full overflow-hidden',
-              'text-white text-sm font-semibold',
+              'group relative flex items-center gap-2 px-5 py-2.5 rounded-full overflow-hidden flex-shrink-0',
+              'text-white text-sm font-semibold whitespace-nowrap',
               'transition-all duration-300',
               'hover:shadow-lg hover:shadow-brand/25',
-              'active:scale-[0.97]',
-              navIsScrolled ? 'text-xs' : 'text-sm'
+              'active:scale-[0.97]'
             )}
             style={{
               background: 'linear-gradient(90deg, #0096AD 0%, #00B8D4 50%, #0096AD 100%)',
