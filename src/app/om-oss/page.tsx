@@ -45,7 +45,7 @@ export default function AboutPage() {
           <div className="container-custom">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               <div>
-                <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium uppercase tracking-wider mb-4">
+                <span className="inline-block px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-medium uppercase tracking-wider mb-4">
                   Om oss
                 </span>
                 <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-text mb-6">
@@ -98,11 +98,11 @@ export default function AboutPage() {
                   className={cn(
                     'flex items-start gap-6 p-8 rounded-3xl',
                     'bg-white border border-border',
-                    'hover:shadow-lg hover:border-primary/20 transition-all duration-300'
+                    'hover:shadow-lg hover:border-brand/20 transition-all duration-300'
                   )}
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center flex-shrink-0">
-                    <IconComponent className="w-7 h-7 text-primary" />
+                  <div className="w-14 h-14 rounded-2xl bg-brand/5 flex items-center justify-center flex-shrink-0">
+                    <IconComponent className="w-7 h-7 text-brand" />
                   </div>
                   <div>
                     <h3 className="font-heading text-xl font-semibold text-text mb-3">
@@ -177,8 +177,8 @@ export default function AboutPage() {
                 href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
                 className={cn(
                   'inline-flex items-center gap-2 px-8 py-4 rounded-full',
-                  'bg-primary text-white font-medium',
-                  'hover:bg-primary-light transition-all duration-300'
+                  'bg-brand text-white font-medium',
+                  'hover:bg-brand-light transition-all duration-300'
                 )}
               >
                 <Phone className="w-5 h-5" />
@@ -188,8 +188,8 @@ export default function AboutPage() {
                 href={`mailto:${siteConfig.email}`}
                 className={cn(
                   'inline-flex items-center gap-2 px-8 py-4 rounded-full',
-                  'border-2 border-primary text-primary font-medium',
-                  'hover:bg-primary hover:text-white transition-all duration-300'
+                  'border-2 border-brand text-brand font-medium',
+                  'hover:bg-brand hover:text-white transition-all duration-300'
                 )}
               >
                 <Mail className="w-5 h-5" />

@@ -94,9 +94,9 @@ export default function ReferencesTeaser() {
               href="/referenser/"
               className={cn(
                 'inline-flex items-center gap-2 px-8 py-4 rounded-full',
-                'bg-primary text-white font-medium',
-                'hover:bg-primary-light transition-all duration-300',
-                'hover:shadow-lg hover:shadow-primary/25'
+                'bg-brand text-white font-medium',
+                'hover:bg-brand-light transition-all duration-300',
+                'hover:shadow-lg hover:shadow-brand/25'
               )}
             >
               Se alla referenser

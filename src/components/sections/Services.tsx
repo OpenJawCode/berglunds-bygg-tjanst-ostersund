@@ -62,7 +62,7 @@ export default function Services() {
                   'service-card group block bg-white rounded-3xl p-8',
                   'border border-[#E5E2DE] shadow-sm',
                   'transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]',
-                  'hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-2 hover:border-primary/20',
+                  'hover:shadow-xl hover:shadow-brand/5 hover:-translate-y-2 hover:border-brand/20',
                   'opacity-0'
                 )}
               >
@@ -77,7 +77,7 @@ export default function Services() {
                 </div>
 
                 {/* Content */}
-                <h3 className="font-heading text-xl font-semibold text-text mb-3 group-hover:text-primary transition-colors">
+                <h3 className="font-heading text-xl font-semibold text-text mb-3 group-hover:text-brand transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-text-muted text-sm leading-relaxed mb-4">
@@ -95,7 +95,7 @@ export default function Services() {
                 </ul>
 
                 {/* CTA */}
-                <div className="flex items-center gap-2 text-primary font-medium text-sm group/link">
+                <div className="flex items-center gap-2 text-brand font-medium text-sm group/link">
                   <span>Läs mer</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
                 </div>
@@ -110,9 +110,9 @@ export default function Services() {
             href="/tjanster/"
             className={cn(
               'inline-flex items-center gap-2 px-8 py-4 rounded-full',
-              'bg-primary text-white font-medium',
-              'hover:bg-primary-light transition-all duration-300',
-              'hover:shadow-lg hover:shadow-primary/25',
+              'bg-brand text-white font-medium',
+              'hover:bg-brand-light transition-all duration-300',
+              'hover:shadow-lg hover:shadow-brand/25',
               'active:scale-[0.98]'
             )}
           >

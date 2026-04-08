@@ -52,21 +52,21 @@ export default function ServicesPage() {
                   className={cn(
                     'group block bg-white rounded-3xl p-8',
                     'border border-[#E5E2DE] shadow-sm',
-                    'hover:shadow-xl hover:border-primary/20 transition-all duration-500',
+                    'hover:shadow-xl hover:border-brand/20 transition-all duration-500',
                     'hover:-translate-y-2'
                   )}
                 >
                   {/* Icon */}
                   <div className={cn(
                     'w-14 h-14 rounded-2xl flex items-center justify-center mb-6',
-                    'bg-primary/5 text-primary',
-                    'transition-all duration-300 group-hover:bg-primary group-hover:text-white'
+                    'bg-brand/5 text-brand',
+                    'transition-all duration-300 group-hover:bg-brand group-hover:text-white'
                   )}>
                     <IconComponent className="w-7 h-7" />
                   </div>
 
                   {/* Content */}
-                  <h2 className="font-heading text-xl font-semibold text-text mb-3 group-hover:text-primary transition-colors">
+                  <h2 className="font-heading text-xl font-semibold text-text mb-3 group-hover:text-brand transition-colors">
                     {service.title}
                   </h2>
                   <p className="text-text-muted text-sm leading-relaxed mb-4">
@@ -84,7 +84,7 @@ export default function ServicesPage() {
                   </ul>
 
                   {/* CTA */}
-                  <div className="flex items-center gap-2 text-primary font-medium text-sm">
+                  <div className="flex items-center gap-2 text-brand font-medium text-sm">
                     <span>Läs mer</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </div>
@@ -110,7 +110,7 @@ export default function ServicesPage() {
               { step: '04', title: 'Byggstart', desc: 'Vi sätter igång och håller dig informerad.' },
             ].map((item, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 rounded-2xl bg-primary text-white flex items-center justify-center mx-auto mb-4 font-heading text-xl font-bold">
+                <div className="w-16 h-16 rounded-2xl bg-brand text-white flex items-center justify-center mx-auto mb-4 font-heading text-xl font-bold">
                   {item.step}
                 </div>
                 <h3 className="font-heading text-lg font-semibold text-text mb-2">

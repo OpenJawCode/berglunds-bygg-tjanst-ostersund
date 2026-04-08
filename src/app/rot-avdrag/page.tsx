@@ -99,7 +99,7 @@ export default function RotAvdragPage() {
                 key={benefit.title}
                 className={cn(
                   'bg-white rounded-2xl p-6 border border-border',
-                  'hover:shadow-lg hover:border-primary/20 transition-all duration-300'
+                  'hover:shadow-lg hover:border-brand/20 transition-all duration-300'
                 )}
               >
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
@@ -193,7 +193,7 @@ export default function RotAvdragPage() {
                 )}
               >
                 <h3 className="font-heading text-lg font-semibold text-text mb-3 flex items-start gap-3">
-                  <HelpCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <HelpCircle className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" />
                   {faq.question}
                 </h3>
                 <p className="text-text-muted leading-relaxed pl-8">
@@ -217,7 +217,7 @@ export default function RotAvdragPage() {
             <Link href="/offert/">
               <Button
                 size="lg"
-                className="bg-white text-primary hover:bg-white/90"
+                className="bg-white text-brand hover:bg-white/90"
               >
                 Få en offert med ROT-avdrag
                 <ArrowRight className="w-5 h-5 ml-2" />

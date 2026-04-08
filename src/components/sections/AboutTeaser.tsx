@@ -73,7 +73,7 @@ export default function AboutTeaser() {
 
         {/* Content */}
         <div className="order-1 lg:order-2">
-          <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium uppercase tracking-wider mb-4">
+          <span className="inline-block px-3 py-1 rounded-full bg-brand/10 text-brand text-xs font-medium uppercase tracking-wider mb-4">
             Om oss
           </span>
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-text mb-6">
@@ -102,8 +102,8 @@ export default function AboutTeaser() {
                     'value-item flex items-start gap-3 opacity-0'
                   )}
                 >
-                  <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center flex-shrink-0">
-                    <IconComponent className="w-5 h-5 text-primary" />
+                  <div className="w-10 h-10 rounded-xl bg-brand/5 flex items-center justify-center flex-shrink-0">
+                    <IconComponent className="w-5 h-5 text-brand" />
                   </div>
                   <div>
                     <h4 className="font-heading font-semibold text-text mb-1">
@@ -122,7 +122,7 @@ export default function AboutTeaser() {
           <Link
             href="/om-oss/"
             className={cn(
-              'inline-flex items-center gap-2 text-primary font-medium',
+              'inline-flex items-center gap-2 text-brand font-medium',
               'hover:gap-3 transition-all duration-300'
             )}
           >

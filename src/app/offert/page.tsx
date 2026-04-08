@@ -49,7 +49,7 @@ export default function OffertPage() {
                     className={cn(
                       'w-full px-4 py-3 rounded-xl border border-border',
                       'bg-white text-text',
-                      'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary',
+                      'focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand',
                       'transition-all duration-200'
                     )}
                     placeholder="Ditt namn"
@@ -70,7 +70,7 @@ export default function OffertPage() {
                       className={cn(
                         'w-full px-4 py-3 rounded-xl border border-border',
                         'bg-white text-text',
-                        'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary',
+                        'focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand',
                         'transition-all duration-200'
                       )}
                       placeholder="din@email.se"
@@ -88,7 +88,7 @@ export default function OffertPage() {
                       className={cn(
                         'w-full px-4 py-3 rounded-xl border border-border',
                         'bg-white text-text',
-                        'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary',
+                        'focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand',
                         'transition-all duration-200'
                       )}
                       placeholder="070-123 45 67"
@@ -109,7 +109,7 @@ export default function OffertPage() {
                     className={cn(
                       'w-full px-4 py-3 rounded-xl border border-border',
                       'bg-white text-text',
-                      'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary',
+                      'focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand',
                       'transition-all duration-200'
                     )}
                     placeholder="Gatuadress, postnummer, ort"
@@ -128,7 +128,7 @@ export default function OffertPage() {
                     className={cn(
                       'w-full px-4 py-3 rounded-xl border border-border',
                       'bg-white text-text',
-                      'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary',
+                      'focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand',
                       'transition-all duration-200'
                     )}
                   >
@@ -154,7 +154,7 @@ export default function OffertPage() {
                         name="customerType"
                         value="private"
                         defaultChecked
-                        className="w-4 h-4 text-primary focus:ring-primary"
+                        className="w-4 h-4 text-brand focus:ring-brand"
                       />
                       <span className="text-text">Privatperson</span>
                     </label>
@@ -163,7 +163,7 @@ export default function OffertPage() {
                         type="radio"
                         name="customerType"
                         value="company"
-                        className="w-4 h-4 text-primary focus:ring-primary"
+                        className="w-4 h-4 text-brand focus:ring-brand"
                       />
                       <span className="text-text">Företag</span>
                     </label>
@@ -182,7 +182,7 @@ export default function OffertPage() {
                     className={cn(
                       'w-full px-4 py-3 rounded-xl border border-border',
                       'bg-white text-text resize-none',
-                      'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary',
+                      'focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand',
                       'transition-all duration-200'
                     )}
                     placeholder="Beskriv ditt projekt, tidsplan, budget, etc."
@@ -215,8 +215,8 @@ export default function OffertPage() {
                     { icon: Clock, title: 'Du bestämmer', desc: 'Ingen köptvång, ta den tid du behöver.' },
                   ].map((step, index) => (
                     <div key={index} className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center flex-shrink-0">
-                        <step.icon className="w-5 h-5 text-primary" />
+                      <div className="w-10 h-10 rounded-xl bg-brand/5 flex items-center justify-center flex-shrink-0">
+                        <step.icon className="w-5 h-5 text-brand" />
                       </div>
                       <div>
                         <h3 className="font-semibold text-text">{step.title}</h3>
@@ -238,8 +238,8 @@ export default function OffertPage() {
                   href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
                   className={cn(
                     'inline-flex items-center gap-2 px-6 py-3 rounded-full',
-                    'bg-primary text-white font-medium',
-                    'hover:bg-primary-light transition-colors'
+                    'bg-brand text-white font-medium',
+                    'hover:bg-brand-light transition-colors'
                   )}
                 >
                   <Phone className="w-5 h-5" />

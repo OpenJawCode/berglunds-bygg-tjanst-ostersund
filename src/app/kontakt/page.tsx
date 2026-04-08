@@ -37,15 +37,15 @@ export default function KontaktPage() {
               href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
               className={cn(
                 'group bg-white rounded-3xl p-8 border border-border',
-                'hover:shadow-lg hover:border-primary/20 transition-all duration-300',
+                'hover:shadow-lg hover:border-brand/20 transition-all duration-300',
                 'text-center'
               )}
             >
-              <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                <Phone className="w-8 h-8 text-primary group-hover:text-white" />
+              <div className="w-16 h-16 rounded-2xl bg-brand/5 flex items-center justify-center mx-auto mb-4 group-hover:bg-brand group-hover:text-white transition-colors">
+                <Phone className="w-8 h-8 text-brand group-hover:text-white" />
               </div>
               <h3 className="font-heading text-lg font-semibold text-text mb-2">Telefon</h3>
-              <p className="text-primary font-medium">{siteConfig.phone}</p>
+              <p className="text-brand font-medium">{siteConfig.phone}</p>
             </a>
 
             {/* Email */}
@@ -53,15 +53,15 @@ export default function KontaktPage() {
               href={`mailto:${siteConfig.email}`}
               className={cn(
                 'group bg-white rounded-3xl p-8 border border-border',
-                'hover:shadow-lg hover:border-primary/20 transition-all duration-300',
+                'hover:shadow-lg hover:border-brand/20 transition-all duration-300',
                 'text-center'
               )}
             >
-              <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                <Mail className="w-8 h-8 text-primary group-hover:text-white" />
+              <div className="w-16 h-16 rounded-2xl bg-brand/5 flex items-center justify-center mx-auto mb-4 group-hover:bg-brand group-hover:text-white transition-colors">
+                <Mail className="w-8 h-8 text-brand group-hover:text-white" />
               </div>
               <h3 className="font-heading text-lg font-semibold text-text mb-2">E-post</h3>
-              <p className="text-primary font-medium text-sm break-all">{siteConfig.email}</p>
+              <p className="text-brand font-medium text-sm break-all">{siteConfig.email}</p>
             </a>
 
             {/* Address */}
@@ -71,15 +71,15 @@ export default function KontaktPage() {
               rel="noopener noreferrer"
               className={cn(
                 'group bg-white rounded-3xl p-8 border border-border',
-                'hover:shadow-lg hover:border-primary/20 transition-all duration-300',
+                'hover:shadow-lg hover:border-brand/20 transition-all duration-300',
                 'text-center'
               )}
             >
-              <div className="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                <MapPin className="w-8 h-8 text-primary group-hover:text-white" />
+              <div className="w-16 h-16 rounded-2xl bg-brand/5 flex items-center justify-center mx-auto mb-4 group-hover:bg-brand group-hover:text-white transition-colors">
+                <MapPin className="w-8 h-8 text-brand group-hover:text-white" />
               </div>
               <h3 className="font-heading text-lg font-semibold text-text mb-2">Adress</h3>
-              <p className="text-primary font-medium">{siteConfig.address}</p>
+              <p className="text-brand font-medium">{siteConfig.address}</p>
             </a>
           </div>
 
@@ -132,8 +132,8 @@ export default function KontaktPage() {
                     rel="noopener noreferrer"
                     className={cn(
                       'w-12 h-12 rounded-xl flex items-center justify-center',
-                      'bg-primary/5 text-primary',
-                      'hover:bg-primary hover:text-white transition-colors'
+                      'bg-brand/5 text-brand',
+                      'hover:bg-brand hover:text-white transition-colors'
                     )}
                   >
                     <Facebook className="w-6 h-6" />
@@ -144,8 +144,8 @@ export default function KontaktPage() {
                     rel="noopener noreferrer"
                     className={cn(
                       'w-12 h-12 rounded-xl flex items-center justify-center',
-                      'bg-primary/5 text-primary',
-                      'hover:bg-primary hover:text-white transition-colors'
+                      'bg-brand/5 text-brand',
+                      'hover:bg-brand hover:text-white transition-colors'
                     )}
                   >
                     <Instagram className="w-6 h-6" />
@@ -162,7 +162,7 @@ export default function KontaktPage() {
                 </p>
                 <a
                   href="/offert/"
-                  className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
+                  className="inline-flex items-center gap-2 text-brand font-medium hover:underline"
                 >
                   Gå till offertformuläret →
                 </a>

@@ -58,9 +58,9 @@ export default function ServicePage({ params }: ServicePageProps) {
           <div className="container-custom">
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-text-muted mb-8">
-              <Link href="/" className="hover:text-primary transition-colors">Hem</Link>
+              <Link href="/" className="hover:text-brand transition-colors">Hem</Link>
               <span>/</span>
-              <Link href="/tjanster/" className="hover:text-primary transition-colors">Tjänster</Link>
+              <Link href="/tjanster/" className="hover:text-brand transition-colors">Tjänster</Link>
               <span>/</span>
               <span className="text-text">{service.title}</span>
             </nav>
@@ -116,11 +116,11 @@ export default function ServicePage({ params }: ServicePageProps) {
                 className={cn(
                   'flex items-start gap-4 p-6 rounded-2xl',
                   'bg-white border border-[#E5E2DE]',
-                  'hover:shadow-lg hover:border-primary/20 transition-all duration-300'
+                  'hover:shadow-lg hover:border-brand/20 transition-all duration-300'
                 )}
               >
-                <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-5 h-5 text-primary" />
+                <div className="w-10 h-10 rounded-xl bg-brand/5 flex items-center justify-center flex-shrink-0">
+                  <Check className="w-5 h-5 text-brand" />
                 </div>
                 <span className="text-text font-medium">{feature}</span>
               </div>
@@ -179,13 +179,13 @@ export default function ServicePage({ params }: ServicePageProps) {
                     'hover:shadow-lg hover:border-brand/20 transition-all duration-300'
                   )}
               >
-                <h3 className="font-heading text-lg font-semibold text-text mb-2 group-hover:text-primary transition-colors">
+                <h3 className="font-heading text-lg font-semibold text-text mb-2 group-hover:text-brand transition-colors">
                   {otherService.title}
                 </h3>
                 <p className="text-text-muted text-sm mb-4">
                   {otherService.shortDescription}
                 </p>
-                <span className="inline-flex items-center gap-1 text-primary text-sm font-medium">
+                <span className="inline-flex items-center gap-1 text-brand text-sm font-medium">
                   Läs mer
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </span>

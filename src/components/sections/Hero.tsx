@@ -86,7 +86,7 @@ export default function Hero() {
               <Button
                 size="lg"
                 className={cn(
-                  'group bg-white text-primary hover:bg-white/90',
+                  'group bg-white text-brand hover:bg-white/90',
                   'shadow-lg shadow-black/20'
                 )}
               >

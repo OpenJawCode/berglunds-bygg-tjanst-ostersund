@@ -152,7 +152,21 @@ export default function Navigation() {
                 'h-full w-auto transition-all duration-300',
                 isScrolled ? 'brightness-0' : 'brightness-0 invert'
               )}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const fallback = target.nextElementSibling as HTMLElement;
+                if (fallback) fallback.style.display = 'block';
+              }}
             />
+            <span 
+              className={cn(
+                'hidden font-heading font-bold text-xl tracking-tight',
+                isScrolled ? 'text-text' : 'text-white'
+              )}
+            >
+              BERGLUNDS
+            </span>
           </Link>
 
           {/* Nav Links */}
@@ -320,7 +334,21 @@ export default function Navigation() {
                 'h-full w-auto transition-all duration-300',
                 isScrolled ? 'brightness-0' : 'brightness-0 invert'
               )}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const fallback = target.nextElementSibling as HTMLElement;
+                if (fallback) fallback.style.display = 'block';
+              }}
             />
+            <span 
+              className={cn(
+                'hidden font-heading font-bold text-lg tracking-tight',
+                isScrolled ? 'text-text' : 'text-white'
+              )}
+            >
+              BERGLUNDS
+            </span>
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}

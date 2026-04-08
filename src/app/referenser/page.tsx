@@ -85,8 +85,8 @@ export default function ReferencesPage() {
               rel="noopener noreferrer"
               className={cn(
                 'inline-flex items-center gap-2 px-8 py-4 rounded-full',
-                'bg-primary text-white font-medium',
-                'hover:bg-primary-light transition-all duration-300'
+                'bg-brand text-white font-medium',
+                'hover:bg-brand-light transition-all duration-300'
               )}
             >
               Följ oss på Instagram

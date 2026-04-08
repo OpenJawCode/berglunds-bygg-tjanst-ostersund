@@ -65,7 +65,7 @@ export default function TrustSignals() {
               >
                 <div className={cn(
                   'w-16 h-16 rounded-2xl flex items-center justify-center mb-5',
-                  'bg-primary/5 text-primary'
+                  'bg-brand/5 text-brand'
                 )}>
                   <IconComponent className="w-8 h-8" />
                 </div>

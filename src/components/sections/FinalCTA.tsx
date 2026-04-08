@@ -24,7 +24,7 @@ export default function FinalCTA() {
             <Button
               size="lg"
               className={cn(
-                'group bg-white text-primary hover:bg-white/90',
+                'group bg-white text-text hover:bg-white/90',
                 'shadow-lg shadow-black/20'
               )}
             >

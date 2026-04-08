@@ -19,16 +19,16 @@ export function Button({
 }: ButtonProps) {
   const variants = {
     primary: cn(
-      'bg-primary text-white hover:bg-primary-light',
-      'focus:ring-2 focus:ring-primary focus:ring-offset-2'
+      'bg-brand text-white hover:bg-brand-400',
+      'focus:ring-2 focus:ring-brand focus:ring-offset-2'
     ),
     secondary: cn(
-      'bg-white text-primary border-2 border-primary',
-      'hover:bg-primary hover:text-white',
-      'focus:ring-2 focus:ring-primary focus:ring-offset-2'
+      'bg-white text-brand border-2 border-brand',
+      'hover:bg-brand hover:text-white',
+      'focus:ring-2 focus:ring-brand focus:ring-offset-2'
     ),
-    ghost: 'text-primary hover:bg-primary/5',
-    outline: 'border-2 border-current text-primary hover:bg-primary/5',
+    ghost: 'text-brand hover:bg-brand/5',
+    outline: 'border-2 border-current text-brand hover:bg-brand/5',
   }
 
   const sizes = {
