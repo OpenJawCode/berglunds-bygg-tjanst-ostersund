@@ -91,7 +91,7 @@ export default function ServicePage({ params }: ServicePageProps) {
 
               <div className="relative aspect-[4/3] rounded-3xl overflow-hidden">
                 <Image
-                  src="/images/hero/hero-main.jpg"
+                  src={service.imageUrl}
                   alt={service.title}
                   fill
                   className="object-cover"

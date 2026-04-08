@@ -1,6 +1,7 @@
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import Hero from '@/components/sections/Hero'
+import MarqueeLoop from '@/components/sections/MarqueeLoop'
 import TrustSignals from '@/components/sections/TrustSignals'
 import Services from '@/components/sections/Services'
 import RotAvdragCTA from '@/components/sections/RotAvdragCTA'
@@ -14,6 +15,7 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
+        <MarqueeLoop />
         <TrustSignals />
         <Services />
         <RotAvdragCTA />

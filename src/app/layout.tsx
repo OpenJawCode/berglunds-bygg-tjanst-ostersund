@@ -30,6 +30,35 @@ export const metadata: Metadata = {
   },
 }
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Berglunds Byggtjänst Östersund',
+  image: 'https://berglundsbyggtjanst.se/brand/logo-horizontal.png',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Namn 110',
+    addressLocality: 'Frösön',
+    postalCode: '832 93',
+    addressRegion: 'Jämtland',
+    addressCountry: 'SE',
+  },
+  telephone: '+46703218827',
+  email: 'infoberglundsbyggtjanstosd@gmail.com',
+  priceRange: '$$',
+  openingHours: 'Mo-Fr 07:00-17:00',
+  serviceArea: {
+    '@type': 'GeoCircle',
+    geoMidpoint: {
+      '@type': 'GeoCoordinates',
+      latitude: 63.1792,
+      longitude: 14.6357,
+    },
+    geoRadius: '50000',
+  },
+  areaServed: 'Östersund och Jämtland',
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -37,6 +66,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="sv" className={`${cinzel.variable} ${plusJakarta.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-screen">
         {children}
       </body>

@@ -29,6 +29,7 @@ export const services = [
     title: 'Takbyten & takarbeten',
     shortDescription: 'Ett tätt och tryggt tak över huvudet',
     description: 'Taket är ditt hems viktigaste skydd mot väder och vind. Vi utför kompletta takbyten, takomläggningar och takreparationer med fokus på långsiktig hållbarhet.',
+    imageUrl: '/images/hero/hero-main.jpg',
     features: [
       'Kompletta takbyten',
       'Takreparationer',
@@ -47,6 +48,7 @@ export const services = [
     title: 'Badrumsrenoveringar',
     shortDescription: 'Ditt drömbadrum förtjänar experter',
     description: 'Ett badrum är mer än kakel och kran – det är kvalitetstid varje dag. Vi renoverar kompletta badrum med professionell VVS, vattentät tätskiktning och moderna lösningar.',
+    imageUrl: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1920&q=80',
     features: [
       'Design och materialval',
       'Rivning',
@@ -65,6 +67,7 @@ export const services = [
     title: 'Nybyggnation & tillbyggnader',
     shortDescription: 'Behöver du mer plats? Vi bygger din dröm',
     description: 'Vi hanterar hela processen från ritningar och bygglov till färdig nyckel. Oavsett om du vill bygga nytt hus, göra en tillbyggnad eller bygga ut altanen.',
+    imageUrl: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1920&q=80',
     features: [
       'Planering',
       'Bygglovsansökan',
@@ -83,6 +86,7 @@ export const services = [
     title: 'Ombyggnation & renovering',
     shortDescription: 'Förnya ditt hem – bevara själen',
     description: 'Varje hem har sin historia. Vi är experter på att modernisera och förbättra utan att förlora karaktären. Från köksbyte till helhetslösningar.',
+    imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1920&q=80',
     features: [
       'Köksrenovering',
       'Trapprenovering',
@@ -100,6 +104,7 @@ export const services = [
     title: 'Snickeriarbeten & inredning',
     shortDescription: 'Specialanpassad inredning för ditt hem',
     description: 'Trappor, inbyggda garderober, förvaringslösningar eller specialritade möbler – vi skapar skräddarsydd inredning som passar perfekt i ditt hem.',
+    imageUrl: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=1920&q=80',
     features: [
       'Trappor',
       'Inbyggda garderober',

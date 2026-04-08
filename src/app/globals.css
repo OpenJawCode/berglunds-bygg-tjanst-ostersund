@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  /* Primary Colors */
-  --color-primary: #1E3A5F;
-  --color-primary-light: #2D4A6F;
-  --color-primary-dark: #152A47;
-  --color-accent: #4A90A4;
-  --color-accent-light: #5BA0B4;
+  /* Primary Colors - Cyan */
+  --color-primary: #00B8D4;
+  --color-primary-light: #33C6DC;
+  --color-primary-dark: #0096AD;
+  --color-accent: #008A9C;
+  --color-accent-light: #00C8E6;
   
   /* Neutral Colors */
   --color-earth: #2C2419;
@@ -92,33 +92,33 @@
   
   .btn-primary {
     @apply btn;
-    background-color: #1E3A5F;
+    background-color: #00B8D4;
     color: white;
   }
   
   .btn-primary:hover {
-    background-color: #2D4A6F;
+    background-color: #33C6DC;
   }
   
   .btn-secondary {
     @apply btn;
     background-color: white;
-    color: #1E3A5F;
-    border: 2px solid #1E3A5F;
+    color: #00B8D4;
+    border: 2px solid #00B8D4;
   }
   
   .btn-secondary:hover {
-    background-color: #1E3A5F;
+    background-color: #00B8D4;
     color: white;
   }
   
   .btn-ghost {
     @apply btn;
-    color: #1E3A5F;
+    color: #00B8D4;
   }
   
   .btn-ghost:hover {
-    background-color: rgba(30, 58, 95, 0.05);
+    background-color: rgba(0, 184, 212, 0.05);
   }
   
   /* Card styles */
@@ -160,6 +160,18 @@
   
   .animation-delay-400 {
     animation-delay: 400ms;
+  }
+  
+  /* Nav CTA shimmer */
+  .nav-cta:hover {
+    background-position: 100% 0;
+  }
+  
+  /* Hide on mobile */
+  @media (max-width: 767px) {
+    .hide-mobile {
+      display: none !important;
+    }
   }
 }
 
@@ -203,7 +215,7 @@
 
 /* Selection color */
 ::selection {
-  background: #1E3A5F;
+  background: #00B8D4;
   color: white;
 }
 
