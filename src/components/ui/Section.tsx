@@ -16,7 +16,7 @@ export function Section({
   const backgrounds = {
     light: 'bg-background-light',
     dark: 'bg-background-dark text-white',
-    primary: 'bg-primary text-white',
+    primary: 'bg-brand text-white',
   }
 
   const paddings = {
@@ -61,7 +61,7 @@ export function SectionHeader({
       {eyebrow && (
         <span className={cn(
           'inline-block px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider mb-4',
-          light ? 'bg-white/10 text-white/80' : 'bg-primary/10 text-primary'
+          light ? 'bg-white/10 text-white/80' : 'bg-brand/10 text-brand'
         )}>
           {eyebrow}
         </span>

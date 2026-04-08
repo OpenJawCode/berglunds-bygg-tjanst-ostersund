@@ -69,8 +69,8 @@ export default function Services() {
                 {/* Icon */}
                 <div className={cn(
                   'w-14 h-14 rounded-2xl flex items-center justify-center mb-6',
-                  'bg-primary/5 text-primary',
-                  'transition-all duration-300 group-hover:bg-primary group-hover:text-white',
+                  'bg-brand/10 text-brand',
+                  'transition-all duration-300 group-hover:bg-brand group-hover:text-white',
                   'group-hover:scale-110 group-hover:rotate-3'
                 )}>
                   <IconComponent className="w-7 h-7" />

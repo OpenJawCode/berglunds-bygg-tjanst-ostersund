@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Cinzel, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
+import PageTransition from '@/components/layout/PageTransition'
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -22,6 +23,11 @@ export const metadata: Metadata = {
   title: 'Berglunds Byggtjänst Östersund | Kvalitetsbyggnation i Jämtland',
   description: 'Vi bygger ditt drömhem i Östersund och Jämtland. Takbyte, badrumsrenovering, nybyggnation och ombyggnation med ROT-avdrag. Begär en kostnadsfri offert idag!',
   keywords: ['byggfirma Östersund', 'byggtjänst Jämtland', 'takbyte', 'badrumsrenovering', 'nybyggnation', 'ROT-avdrag', 'hantverkare Östersund'],
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     title: 'Berglunds Byggtjänst Östersund',
     description: 'Kvalitetsbyggnation i Östersund och Jämtland. Från idé till inflyttning.',
@@ -73,7 +79,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen">
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
       </body>
     </html>
   )

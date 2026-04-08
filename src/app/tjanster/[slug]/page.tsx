@@ -142,7 +142,7 @@ export default function ServicePage({ params }: ServicePageProps) {
               <Link href="/offert/">
                 <Button
                   size="lg"
-                  className="bg-white text-primary hover:bg-white/90"
+                  className="bg-white text-brand hover:bg-white/90"
                 >
                   Få en offert
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -173,11 +173,11 @@ export default function ServicePage({ params }: ServicePageProps) {
               <Link
                 key={otherService.slug}
                 href={`/tjanster/${otherService.slug}/`}
-                className={cn(
-                  'group block bg-white rounded-2xl p-6',
-                  'border border-[#E5E2DE]',
-                  'hover:shadow-lg hover:border-primary/20 transition-all duration-300'
-                )}
+                  className={cn(
+                    'group block bg-white rounded-2xl p-6',
+                    'border border-border',
+                    'hover:shadow-lg hover:border-brand/20 transition-all duration-300'
+                  )}
               >
                 <h3 className="font-heading text-lg font-semibold text-text mb-2 group-hover:text-primary transition-colors">
                   {otherService.title}

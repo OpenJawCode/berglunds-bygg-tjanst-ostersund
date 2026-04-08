@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ChevronDown, Phone, Home, Bath, Building2, Hammer, Trees } from 'lucide-react'
@@ -16,52 +16,14 @@ const serviceIcons: Record<string, React.ComponentType<{ className?: string }>> 
   snickeriarbeten: Trees,
 }
 
-// Liquid Underline Component
-function LiquidUnderline({ isActive }: { isActive?: boolean }) {
-  const pathRef = useRef<SVGPathElement>(null)
-  const isAnimating = useRef(false)
-
-  const animateTo = useCallback((path: string, opacity: number) => {
-    if (!pathRef.current || isAnimating.current) return
-    
-    gsap.to(pathRef.current, {
-      attr: { d: path },
-      opacity,
-      duration: 0.3,
-      ease: 'power2.out',
-    })
-  }, [])
-
-  return (
-    <svg
-      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-[calc(100%-8px)] h-2 pointer-events-none overflow-visible"
-      viewBox="0 0 100 8"
-      preserveAspectRatio="none"
-    >
-      <path
-        ref={pathRef}
-        d="M 0,4 Q 50,4 100,4"
-        stroke="#00B8D4"
-        strokeWidth="1.5"
-        fill="none"
-        opacity={isActive ? 1 : 0}
-        style={{ transition: 'none' }}
-      />
-    </svg>
-  )
-}
-
-// Nav Link with Liquid Underline
 interface NavLinkProps {
   href: string
   children: React.ReactNode
   isActive?: boolean
-  onMouseEnter?: () => void
-  onMouseLeave?: () => void
+  isScrolled: boolean
 }
 
-function NavLink({ href, children, isActive, onMouseEnter, onMouseLeave }: NavLinkProps) {
-  const linkRef = useRef<HTMLAnchorElement>(null)
+function NavLink({ href, children, isActive, isScrolled }: NavLinkProps) {
   const pathRef = useRef<SVGPathElement>(null)
 
   const handleMouseEnter = () => {
@@ -73,7 +35,6 @@ function NavLink({ href, children, isActive, onMouseEnter, onMouseLeave }: NavLi
         ease: 'power2.out',
       })
     }
-    onMouseEnter?.()
   }
 
   const handleMouseLeave = () => {
@@ -85,19 +46,19 @@ function NavLink({ href, children, isActive, onMouseEnter, onMouseLeave }: NavLi
         ease: 'power2.out',
       })
     }
-    onMouseLeave?.()
   }
 
   return (
     <Link
-      ref={linkRef}
       href={href}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
         'relative px-4 py-2 text-sm font-medium transition-all duration-300',
-        'text-white/70 hover:text-white',
-        isActive && 'text-white'
+        isScrolled 
+          ? 'text-text/70 hover:text-text' 
+          : 'text-white/70 hover:text-white',
+        isActive && (isScrolled ? 'text-text' : 'text-white')
       )}
       style={{ letterSpacing: '0.06em' }}
     >
@@ -125,22 +86,19 @@ export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const pathname = usePathname()
-  const navRef = useRef<HTMLElement>(null)
-  const pillRef = useRef<HTMLDivElement>(null)
+  const ctaRef = useRef<HTMLAnchorElement>(null)
 
-  // Scroll detection
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80)
     }
     
     window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll() // Check initial state
+    handleScroll()
     
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -168,19 +126,14 @@ export default function Navigation() {
   return (
     <>
       {/* Desktop Navigation - Floating Pill */}
-      <header
-        ref={navRef}
-        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden md:block"
-      >
+      <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden md:block">
         <nav
-          ref={pillRef}
           className={cn(
-            'flex items-center justify-between rounded-full transition-all duration-500 ease-smooth',
-            'bg-white/[0.07] backdrop-blur-xl border border-white/[0.15]',
-            'shadow-lg shadow-black/5',
+            'flex items-center justify-between rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
+            'backdrop-blur-xl border shadow-lg',
             isScrolled 
-              ? 'px-5 py-2 bg-white/[0.12] shadow-xl' 
-              : 'px-7 py-3'
+              ? 'px-5 py-2 bg-white/95 border-gray-200/50 shadow-xl' 
+              : 'px-7 py-3 bg-white/[0.07] border-white/[0.15] shadow-black/5'
           )}
           style={{ minWidth: isScrolled ? '600px' : '680px' }}
         >
@@ -188,15 +141,22 @@ export default function Navigation() {
           <Link 
             href="/" 
             className={cn(
-              'font-heading font-bold text-white transition-all duration-300',
-              isScrolled ? 'text-base' : 'text-lg'
+              'transition-all duration-300 flex items-center',
+              isScrolled ? 'h-8' : 'h-10'
             )}
           >
-            {isScrolled ? 'B' : 'BERGLUNDS'}
+            <img 
+              src="/logo.svg" 
+              alt="Berglunds Byggtjänst Östersund"
+              className={cn(
+                'h-full w-auto transition-all duration-300',
+                isScrolled ? 'brightness-0' : 'brightness-0 invert'
+              )}
+            />
           </Link>
 
           {/* Nav Links */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center">
             {navLinks.map((item) => (
               <div key={item.name} className="relative">
                 {item.hasDropdown ? (
@@ -208,9 +168,11 @@ export default function Navigation() {
                     <button
                       className={cn(
                         'flex items-center gap-1 px-4 py-2 text-sm font-medium transition-all duration-300',
-                        'text-white/70 hover:text-white',
-                        isServicesOpen && 'text-white',
-                        isActive('/tjanster/') && 'text-white'
+                        isScrolled
+                          ? 'text-text/70 hover:text-text'
+                          : 'text-white/70 hover:text-white',
+                        isServicesOpen && (isScrolled ? 'text-text' : 'text-white'),
+                        isActive('/tjanster/') && (isScrolled ? 'text-text' : 'text-white')
                       )}
                       style={{ 
                         letterSpacing: '0.06em',
@@ -279,6 +241,7 @@ export default function Navigation() {
                   <NavLink 
                     href={item.href} 
                     isActive={isActive(item.href)}
+                    isScrolled={isScrolled}
                   >
                     {item.name}
                   </NavLink>
@@ -287,11 +250,12 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* CTA Button with Gradient Shimmer */}
+          {/* CTA Button with Skill Animation */}
           <Link
+            ref={ctaRef}
             href={siteConfig.cta.href}
             className={cn(
-              'relative flex items-center gap-2 px-5 py-2.5 ml-2 rounded-full overflow-hidden',
+              'group relative flex items-center gap-2 px-5 py-2.5 ml-2 rounded-full overflow-hidden',
               'text-white text-sm font-semibold',
               'transition-all duration-300',
               'hover:shadow-lg hover:shadow-brand/25',
@@ -303,22 +267,32 @@ export default function Navigation() {
               backgroundSize: '200% 100%',
             }}
             onMouseEnter={(e) => {
+              // Shimmer effect
               gsap.to(e.currentTarget, {
                 backgroundPosition: '100% 0',
                 duration: 0.4,
                 ease: 'power2.out',
               })
+              // Skill/scale effect
+              gsap.to(e.currentTarget, {
+                scale: 1.05,
+                duration: 0.3,
+                ease: 'back.out(1.7)',
+              })
             }}
             onMouseLeave={(e) => {
               gsap.to(e.currentTarget, {
                 backgroundPosition: '0% 0',
+                scale: 1,
                 duration: 0.4,
                 ease: 'power2.out',
               })
             }}
           >
-            <Phone className="w-4 h-4" />
-            {siteConfig.cta.text}
+            {/* Shine effect */}
+            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <Phone className="w-4 h-4 relative z-10" />
+            <span className="relative z-10">{siteConfig.cta.text}</span>
           </Link>
         </nav>
       </header>
@@ -328,23 +302,40 @@ export default function Navigation() {
         <div
           className={cn(
             'mx-4 mt-4 px-4 py-3 rounded-2xl transition-all duration-300',
-            'bg-[#0D1117]/90 backdrop-blur-xl border border-white/[0.15] shadow-lg',
+            'backdrop-blur-xl border shadow-lg',
             'flex items-center justify-between',
-            isScrolled && 'bg-[#0D1117]/95 shadow-xl'
+            isScrolled 
+              ? 'bg-white/95 border-gray-200/50 shadow-xl' 
+              : 'bg-[#0D1117]/90 border-white/[0.15]'
           )}
         >
-          <Link href="/" className="font-heading font-bold text-white text-lg">
-            BERGLUNDS
+          <Link 
+            href="/" 
+            className="h-8 flex items-center"
+          >
+            <img 
+              src="/logo.svg" 
+              alt="Berglunds Byggtjänst Östersund"
+              className={cn(
+                'h-full w-auto transition-all duration-300',
+                isScrolled ? 'brightness-0' : 'brightness-0 invert'
+              )}
+            />
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center justify-center w-11 h-11 rounded-full hover:bg-white/10 transition-colors"
+            className={cn(
+              'flex items-center justify-center w-11 h-11 rounded-full transition-colors',
+              isScrolled 
+                ? 'hover:bg-gray-100' 
+                : 'hover:bg-white/10'
+            )}
             aria-label={isOpen ? 'Stäng meny' : 'Öppna meny'}
           >
             {isOpen ? (
-              <X className="w-6 h-6 text-white" />
+              <X className={cn('w-6 h-6', isScrolled ? 'text-text' : 'text-white')} />
             ) : (
-              <Menu className="w-6 h-6 text-white" />
+              <Menu className={cn('w-6 h-6', isScrolled ? 'text-text' : 'text-white')} />
             )}
           </button>
         </div>
