@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { Home, ArrowRight, Hammer } from 'lucide-react'
-import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/Button'
 
@@ -12,7 +11,6 @@ export const metadata = {
 export default function NotFound() {
   return (
     <>
-      <Navigation />
       <main className="min-h-[80vh] flex items-center justify-center pt-20 bg-background-light">
         <div className="container-custom text-center">
           <div className="max-w-xl mx-auto">

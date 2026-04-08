@@ -1,4 +1,3 @@
-import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import Hero from '@/components/sections/Hero'
 import MarqueeLoop from '@/components/sections/MarqueeLoop'
@@ -12,7 +11,6 @@ import FinalCTA from '@/components/sections/FinalCTA'
 export default function Home() {
   return (
     <>
-      <Navigation />
       <main>
         <Hero />
         <MarqueeLoop />

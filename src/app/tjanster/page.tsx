@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { services } from '@/lib/constants'
@@ -23,7 +22,6 @@ const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = 
 export default function ServicesPage() {
   return (
     <>
-      <Navigation />
       <main>
         {/* Hero */}
         <section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-background-light">

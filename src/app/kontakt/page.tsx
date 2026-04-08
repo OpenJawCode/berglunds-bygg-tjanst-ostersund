@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { cn } from '@/lib/utils'
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
 export default function KontaktPage() {
   return (
     <>
-      <Navigation />
       <main>
         {/* Hero */}
         <section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-background-light">

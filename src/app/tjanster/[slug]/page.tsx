@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { services, siteConfig } from '@/lib/constants'
@@ -51,7 +50,6 @@ export default function ServicePage({ params }: ServicePageProps) {
 
   return (
     <>
-      <Navigation />
       <main>
         {/* Hero */}
         <section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-background-light">

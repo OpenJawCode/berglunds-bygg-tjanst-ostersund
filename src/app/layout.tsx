@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Cinzel, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
+import Navigation from '@/components/layout/Navigation'
 import PageTransition from '@/components/layout/PageTransition'
 
 const cinzel = Cinzel({
@@ -79,6 +80,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen">
+        <Navigation />
         <PageTransition>
           {children}
         </PageTransition>
