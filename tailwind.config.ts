@@ -8,19 +8,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: {
+        brand: {
           DEFAULT: '#00B8D4',
-          light: '#33C6DC',
-          dark: '#0096AD',
+          50: '#E6F9FC',
+          100: '#CCF3F9',
+          200: '#99E7F3',
+          300: '#66DBED',
+          400: '#33CFE7',
+          500: '#00B8D4',
+          600: '#0096AD',
+          700: '#007186',
+          800: '#004C5A',
+          900: '#00272D',
         },
         accent: {
           DEFAULT: '#008A9C',
           light: '#00C8E6',
+          dark: '#006B7A',
         },
         earth: '#2C2419',
         background: {
           light: '#F8F6F3',
-          dark: '#1A1A1A',
+          dark: '#0D1117',
         },
         border: '#E5E2DE',
         text: {
@@ -29,12 +38,12 @@ module.exports = {
         },
       },
       fontFamily: {
-        heading: ['var(--font-cinzel)', 'serif'],
-        body: ['var(--font-plus-jakarta)', 'sans-serif'],
+        heading: ['var(--font-cinzel)', 'Cinzel', 'serif'],
+        body: ['var(--font-plus-jakarta)', 'Plus Jakarta Sans', 'sans-serif'],
       },
       fontSize: {
-        'display': ['3.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
-        'display-sm': ['2.5rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        'display': ['clamp(2.5rem, 5vw, 4rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        'display-sm': ['clamp(2rem, 4vw, 3rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
       },
       spacing: {
         '18': '4.5rem',
@@ -46,16 +55,24 @@ module.exports = {
       animation: {
         'fade-up': 'fadeUp 0.8s cubic-bezier(0.32, 0.72, 0, 1) forwards',
         'fade-in': 'fadeIn 0.6s ease-out forwards',
+        'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       },
       keyframes: {
         fadeUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      transitionTimingFunction: {
+        'smooth': 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
     },
   },
