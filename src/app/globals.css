@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors */
+  --color-primary: #1E3A5F;
+  --color-primary-light: #2D4A6F;
+  --color-primary-dark: #152A47;
+  --color-accent: #4A90A4;
+  --color-accent-light: #5BA0B4;
+  
+  /* Neutral Colors */
+  --color-earth: #2C2419;
+  --color-bg-light: #F8F6F3;
+  --color-bg-dark: #1A1A1A;
+  --color-text: #1A1A1A;
+  --color-text-muted: #6B6B6B;
+  --color-border: #E5E2DE;
+  --color-white: #FFFFFF;
+  
+  /* Semantic Colors */
+  --color-success: #10B981;
+  --color-error: #EF4444;
+  --color-warning: #F59E0B;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply antialiased;
+    background-color: #F8F6F3;
+    color: #1A1A1A;
+    font-family: var(--font-plus-jakarta), sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cinzel), serif;
+    @apply font-semibold tracking-tight;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl leading-tight;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl leading-tight;
+  }
+  
+  h3 {
+    @apply text-2xl leading-snug;
+  }
+  
+  h4 {
+    @apply text-xl leading-snug;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Glass morphism utilities */
+  .glass {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(24px);
+  }
+  
+  .glass-dark {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(24px);
+  }
+  
+  /* Button base styles */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-full font-medium transition-all duration-300;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .btn-primary {
+    @apply btn;
+    background-color: #1E3A5F;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2D4A6F;
+  }
+  
+  .btn-secondary {
+    @apply btn;
+    background-color: white;
+    color: #1E3A5F;
+    border: 2px solid #1E3A5F;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #1E3A5F;
+    color: white;
+  }
+  
+  .btn-ghost {
+    @apply btn;
+    color: #1E3A5F;
+  }
+  
+  .btn-ghost:hover {
+    background-color: rgba(30, 58, 95, 0.05);
+  }
+  
+  /* Card styles */
+  .card {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid #E5E2DE;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.8s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8F6F3;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E5E2DE;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6B6B6B;
+}
+
+/* Selection color */
+::selection {
+  background: #1E3A5F;
+  color: white;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

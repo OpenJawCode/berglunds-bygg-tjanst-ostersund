@@ -1,0 +1,86 @@
+{
+  "name": "Berglunds Byggtjänst Östersund",
+  "version": "1.0.0",
+  "colors": {
+    "primary": {
+      "DEFAULT": "#1E3A5F",
+      "light": "#2D4A6F",
+      "dark": "#152A47",
+      "description": "Deep navy blue from logo — authority, trust, professionalism"
+    },
+    "accent": {
+      "DEFAULT": "#4A90A4",
+      "light": "#5BA0B4",
+      "description": "Elevated teal accent — modern, Scandinavian feel"
+    },
+    "earth": {
+      "DEFAULT": "#2C2419",
+      "description": "Warm espresso brown — organic, grounded, construction"
+    },
+    "neutral": {
+      "white": "#FFFFFF",
+      "offWhite": "#F8F6F3",
+      "lightGray": "#E5E2DE",
+      "mediumGray": "#6B6B6B",
+      "darkGray": "#1A1A1A",
+      "black": "#0A0A0A"
+    },
+    "semantic": {
+      "success": "#10B981",
+      "error": "#EF4444",
+      "warning": "#F59E0B",
+      "info": "#3B82F6"
+    }
+  },
+  "typography": {
+    "heading": {
+      "font": "Cinzel",
+      "weights": [400, 600, 700],
+      "usage": "H1-H4, section titles, brand moments"
+    },
+    "body": {
+      "font": "Plus Jakarta Sans",
+      "weights": [400, 500, 600, 700],
+      "usage": "Body text, UI elements, buttons, labels"
+    }
+  },
+  "spacing": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "1rem",
+    "lg": "1.5rem",
+    "xl": "2rem",
+    "2xl": "3rem",
+    "3xl": "4rem",
+    "4xl": "5rem",
+    "5xl": "6rem"
+  },
+  "borderRadius": {
+    "sm": "0.25rem",
+    "md": "0.5rem",
+    "lg": "1rem",
+    "xl": "1.5rem",
+    "2xl": "2rem",
+    "full": "9999px"
+  },
+  "shadows": {
+    "sm": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+    "md": "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+    "lg": "0 10px 15px -3px rgb(0 0 0 / 0.1)",
+    "xl": "0 20px 25px -5px rgb(0 0 0 / 0.1)",
+    "glass": "0 8px 32px 0 rgba(31, 38, 135, 0.15)"
+  },
+  "animation": {
+    "duration": {
+      "fast": "150ms",
+      "normal": "300ms",
+      "slow": "500ms",
+      "slower": "800ms"
+    },
+    "easing": {
+      "default": "cubic-bezier(0.32, 0.72, 0, 1)",
+      "bounce": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+      "smooth": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  }
+}
