@@ -87,6 +87,9 @@ export default function Navigation() {
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const pathname = usePathname()
   const ctaRef = useRef<HTMLAnchorElement>(null)
+  
+  // Check if we're on the homepage - subpages need different nav styling
+  const isHomePage = pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,6 +101,10 @@ export default function Navigation() {
     
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+  
+  // On subpages, force "scrolled" appearance immediately (dark text on white bg)
+  // because subpages have light backgrounds
+  const navIsScrolled = isHomePage ? isScrolled : true
 
   useEffect(() => {
     if (isOpen) {
@@ -131,18 +138,18 @@ export default function Navigation() {
           className={cn(
             'flex items-center justify-between rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
             'backdrop-blur-xl border shadow-lg',
-            isScrolled 
+            navIsScrolled 
               ? 'px-5 py-2 bg-white/95 border-gray-200/50 shadow-xl' 
               : 'px-7 py-3 bg-white/[0.07] border-white/[0.15] shadow-black/5'
           )}
-          style={{ minWidth: isScrolled ? '600px' : '680px' }}
+          style={{ minWidth: navIsScrolled ? '600px' : '680px' }}
         >
           {/* Logo */}
           <Link 
             href="/" 
             className={cn(
-              'transition-all duration-300 flex items-center',
-              isScrolled ? 'h-8' : 'h-10'
+              'transition-all duration-300 flex items-center gap-2',
+              navIsScrolled ? 'h-8' : 'h-10'
             )}
           >
             <img 
@@ -150,19 +157,17 @@ export default function Navigation() {
               alt="Berglunds Byggtjänst Östersund"
               className={cn(
                 'h-full w-auto transition-all duration-300',
-                isScrolled ? 'brightness-0' : 'brightness-0 invert'
+                navIsScrolled ? 'brightness-0' : 'brightness-0 invert'
               )}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
-                const fallback = target.nextElementSibling as HTMLElement;
-                if (fallback) fallback.style.display = 'block';
               }}
             />
             <span 
               className={cn(
-                'hidden font-heading font-bold text-xl tracking-tight',
-                isScrolled ? 'text-text' : 'text-white'
+                'font-heading font-bold text-lg tracking-tight',
+                navIsScrolled ? 'text-text' : 'text-white'
               )}
             >
               BERGLUNDS
@@ -182,15 +187,15 @@ export default function Navigation() {
                     <button
                       className={cn(
                         'flex items-center gap-1 px-4 py-2 text-sm font-medium transition-all duration-300',
-                        isScrolled
+                        navIsScrolled
                           ? 'text-text/70 hover:text-text'
                           : 'text-white/70 hover:text-white',
-                        isServicesOpen && (isScrolled ? 'text-text' : 'text-white'),
-                        isActive('/tjanster/') && (isScrolled ? 'text-text' : 'text-white')
+                        isServicesOpen && (navIsScrolled ? 'text-text' : 'text-white'),
+                        isActive('/tjanster/') && (navIsScrolled ? 'text-text' : 'text-white')
                       )}
                       style={{ 
                         letterSpacing: '0.06em',
-                        fontSize: isScrolled ? '11px' : '12px'
+                        fontSize: navIsScrolled ? '11px' : '12px'
                       }}
                     >
                       {item.name}
@@ -255,7 +260,7 @@ export default function Navigation() {
                   <NavLink 
                     href={item.href} 
                     isActive={isActive(item.href)}
-                    isScrolled={isScrolled}
+                    isScrolled={navIsScrolled}
                   >
                     {item.name}
                   </NavLink>
@@ -274,7 +279,7 @@ export default function Navigation() {
               'transition-all duration-300',
               'hover:shadow-lg hover:shadow-brand/25',
               'active:scale-[0.97]',
-              isScrolled ? 'text-xs' : 'text-sm'
+              navIsScrolled ? 'text-xs' : 'text-sm'
             )}
             style={{
               background: 'linear-gradient(90deg, #0096AD 0%, #00B8D4 50%, #0096AD 100%)',
@@ -318,33 +323,31 @@ export default function Navigation() {
             'mx-4 mt-4 px-4 py-3 rounded-2xl transition-all duration-300',
             'backdrop-blur-xl border shadow-lg',
             'flex items-center justify-between',
-            isScrolled 
+            navIsScrolled 
               ? 'bg-white/95 border-gray-200/50 shadow-xl' 
               : 'bg-[#0D1117]/90 border-white/[0.15]'
           )}
         >
           <Link 
             href="/" 
-            className="h-8 flex items-center"
+            className="h-8 flex items-center gap-2"
           >
             <img 
               src="/logo.svg" 
               alt="Berglunds Byggtjänst Östersund"
               className={cn(
                 'h-full w-auto transition-all duration-300',
-                isScrolled ? 'brightness-0' : 'brightness-0 invert'
+                navIsScrolled ? 'brightness-0' : 'brightness-0 invert'
               )}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
-                const fallback = target.nextElementSibling as HTMLElement;
-                if (fallback) fallback.style.display = 'block';
               }}
             />
             <span 
               className={cn(
-                'hidden font-heading font-bold text-lg tracking-tight',
-                isScrolled ? 'text-text' : 'text-white'
+                'font-heading font-bold text-base tracking-tight',
+                navIsScrolled ? 'text-text' : 'text-white'
               )}
             >
               BERGLUNDS
@@ -354,16 +357,16 @@ export default function Navigation() {
             onClick={() => setIsOpen(!isOpen)}
             className={cn(
               'flex items-center justify-center w-11 h-11 rounded-full transition-colors',
-              isScrolled 
+              navIsScrolled 
                 ? 'hover:bg-gray-100' 
                 : 'hover:bg-white/10'
             )}
             aria-label={isOpen ? 'Stäng meny' : 'Öppna meny'}
           >
             {isOpen ? (
-              <X className={cn('w-6 h-6', isScrolled ? 'text-text' : 'text-white')} />
+              <X className={cn('w-6 h-6', navIsScrolled ? 'text-text' : 'text-white')} />
             ) : (
-              <Menu className={cn('w-6 h-6', isScrolled ? 'text-text' : 'text-white')} />
+              <Menu className={cn('w-6 h-6', navIsScrolled ? 'text-text' : 'text-white')} />
             )}
           </button>
         </div>
