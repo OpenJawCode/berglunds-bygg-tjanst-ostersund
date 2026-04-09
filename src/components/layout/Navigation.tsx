@@ -35,10 +35,23 @@ interface NavLinkProps {
   children: React.ReactNode
   isActive?: boolean
   isScrolled: boolean
+  isHomePage: boolean
 }
 
-function NavLink({ href, children, isActive, isScrolled }: NavLinkProps) {
+function NavLink({ href, children, isActive, isScrolled, isHomePage }: NavLinkProps) {
   const pathRef = useRef<SVGPathElement>(null)
+  const pathname = usePathname()
+
+  // Reset path when pathname changes (page navigation)
+  useEffect(() => {
+    if (pathRef.current) {
+      if (isActive) {
+        gsap.set(pathRef.current, { attr: { d: 'M 0,4 Q 50,4 100,4' }, opacity: 1 })
+      } else {
+        gsap.set(pathRef.current, { attr: { d: 'M 0,4 Q 50,4 100,4' }, opacity: 0 })
+      }
+    }
+  }, [pathname, isActive])
 
   const handleMouseEnter = () => {
     if (pathRef.current) {
@@ -62,6 +75,31 @@ function NavLink({ href, children, isActive, isScrolled }: NavLinkProps) {
     }
   }
 
+  // Determine text color based on scroll state and page type
+  // Homepage: white text when at top (dark hero), dark text when scrolled
+  // Subpages: dark text always (light backgrounds)
+  const getTextColor = () => {
+    if (isScrolled) {
+      return 'text-text/70 hover:text-text'
+    }
+    // At top of page
+    if (isHomePage) {
+      return 'text-white/70 hover:text-white'
+    }
+    // Subpages with light backgrounds
+    return 'text-text/70 hover:text-text'
+  }
+
+  const getActiveTextColor = () => {
+    if (isScrolled) {
+      return 'text-text'
+    }
+    if (isHomePage) {
+      return 'text-white'
+    }
+    return 'text-text'
+  }
+
   return (
     <Link
       href={href}
@@ -69,15 +107,14 @@ function NavLink({ href, children, isActive, isScrolled }: NavLinkProps) {
       onMouseLeave={handleMouseLeave}
       className={cn(
         'relative px-3 py-2 text-sm font-medium transition-all duration-300 leading-none whitespace-nowrap',
-        isScrolled 
-          ? 'text-text/70 hover:text-text' 
-          : 'text-white/70 hover:text-white',
-        isActive && (isScrolled ? 'text-text' : 'text-white')
+        getTextColor(),
+        isActive && getActiveTextColor()
       )}
       style={{ letterSpacing: '0.06em' }}
     >
       {children}
       <svg
+        key={`${pathname}-${isActive}`}
         className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-[calc(100%-16px)] h-2 pointer-events-none overflow-visible"
         viewBox="0 0 100 8"
         preserveAspectRatio="none"
@@ -103,6 +140,9 @@ export default function Navigation() {
   const pathname = usePathname()
   const ctaRef = useRef<HTMLAnchorElement>(null)
 
+  // Check if we're on the homepage
+  const isHomePage = pathname === '/'
+
   // Scroll behavior - consistent across ALL pages
   useEffect(() => {
     const handleScroll = () => {
@@ -114,6 +154,11 @@ export default function Navigation() {
     
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Close mobile menu when pathname changes
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
 
   useEffect(() => {
     if (isOpen) {
@@ -137,6 +182,27 @@ export default function Navigation() {
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
     return pathname.startsWith(href)
+  }
+
+  // Get text color for Tjänster dropdown button
+  const getTjansterTextColor = () => {
+    if (isScrolled) {
+      return 'text-text/70 hover:text-text'
+    }
+    if (isHomePage) {
+      return 'text-white/70 hover:text-white'
+    }
+    return 'text-text/70 hover:text-text'
+  }
+
+  const getTjansterActiveColor = () => {
+    if (isScrolled) {
+      return 'text-text'
+    }
+    if (isHomePage) {
+      return 'text-white'
+    }
+    return 'text-text'
   }
 
   return (
@@ -188,11 +254,9 @@ export default function Navigation() {
                     <button
                       className={cn(
                         'flex items-baseline gap-1 px-3 py-2 text-sm font-medium transition-all duration-300 leading-none whitespace-nowrap',
-                        isScrolled
-                          ? 'text-text/70 hover:text-text'
-                          : 'text-white/70 hover:text-white',
-                        isServicesOpen && (isScrolled ? 'text-text' : 'text-white'),
-                        isActive('/tjanster/') && (isScrolled ? 'text-text' : 'text-white')
+                        getTjansterTextColor(),
+                        isServicesOpen && getTjansterActiveColor(),
+                        isActive('/tjanster/') && getTjansterActiveColor()
                       )}
                       style={{ letterSpacing: '0.06em' }}
                     >
@@ -208,6 +272,7 @@ export default function Navigation() {
                     {/* Active underline with glow for Tjänster */}
                     {isActive('/tjanster/') && (
                       <svg
+                        key={`tjanster-${pathname}`}
                         className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-[calc(100%-16px)] h-2 pointer-events-none overflow-visible"
                         viewBox="0 0 100 8"
                         preserveAspectRatio="none"
@@ -276,6 +341,7 @@ export default function Navigation() {
                     href={item.href} 
                     isActive={isActive(item.href)}
                     isScrolled={isScrolled}
+                    isHomePage={isHomePage}
                   >
                     {item.name}
                   </NavLink>
@@ -377,17 +443,18 @@ export default function Navigation() {
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu Overlay - Fixed with solid dark background */}
         <div
           className={cn(
             'fixed inset-0 top-20 mx-4 mt-2 rounded-3xl overflow-hidden',
-            'bg-[#0D1117]/97 backdrop-blur-2xl shadow-2xl',
+            'bg-[#1A1D24] shadow-2xl',
             'flex flex-col p-6',
             'transition-all duration-300',
             isOpen 
               ? 'opacity-100 translate-y-0 pointer-events-auto' 
               : 'opacity-0 -translate-y-4 pointer-events-none'
           )}
+          style={{ backgroundColor: '#1A1D24' }}
         >
           <nav className="flex flex-col gap-1">
             {navLinks.map((item, index) => (
