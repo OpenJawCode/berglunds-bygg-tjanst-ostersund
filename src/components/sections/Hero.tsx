@@ -59,8 +59,8 @@ export default function Hero() {
           </div>
 
           {/* Main Headline */}
-          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 animate-fade-up animation-delay-100">
-            Kvalitetsbyggnation<br />
+          <h1 className="font-heading text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight sm:leading-[1.1] mb-5 sm:mb-6 animate-fade-up animation-delay-100">
+            Kvalitetsbyggnation<br className="sm:block hidden" />
             <span className="text-white/90">i Östersund</span>
           </h1>
 
