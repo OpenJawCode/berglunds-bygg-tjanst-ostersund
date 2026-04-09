@@ -144,34 +144,23 @@ export default function Navigation() {
           )}
           style={{ minWidth: navIsScrolled ? '840px' : '920px' }}
         >
-          {/* Logo */}
+          {/* Logo - Full logo at top, compact monogram when scrolled */}
           <Link 
             href="/" 
-            className={cn(
-              'transition-all duration-300 flex items-baseline gap-2 flex-shrink-0',
-              navIsScrolled ? 'h-7' : 'h-8'
-            )}
+            className="transition-all duration-300 flex-shrink-0"
           >
             <img 
-              src="/logo.svg" 
+              src={navIsScrolled ? "/logo-monogram.png" : "/logo-original.png"}
               alt="Berglunds Byggtjänst Östersund"
               className={cn(
-                'h-full w-auto transition-all duration-300',
-                navIsScrolled ? 'brightness-0' : 'brightness-0 invert'
+                'h-8 w-auto transition-all duration-300 object-contain',
+                navIsScrolled ? 'brightness-0 h-7' : ''
               )}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
+              style={{ 
+                filter: navIsScrolled ? 'brightness(0)' : 'none',
+                maxWidth: navIsScrolled ? '40px' : '200px'
               }}
             />
-            <span 
-              className={cn(
-                'font-heading font-bold text-base tracking-tight leading-none',
-                navIsScrolled ? 'text-text' : 'text-white'
-              )}
-            >
-              BERGLUNDS
-            </span>
           </Link>
 
           {/* Nav Links - Using items-baseline for proper alignment */}
@@ -326,28 +315,20 @@ export default function Navigation() {
         >
           <Link 
             href="/" 
-            className="h-8 flex items-center gap-2"
+            className="flex-shrink-0"
           >
             <img 
-              src="/logo.svg" 
+              src={navIsScrolled ? "/logo-monogram.png" : "/logo-original.png"}
               alt="Berglunds Byggtjänst Östersund"
               className={cn(
-                'h-full w-auto transition-all duration-300',
-                navIsScrolled ? 'brightness-0' : 'brightness-0 invert'
+                'h-8 w-auto transition-all duration-300 object-contain',
+                navIsScrolled ? 'brightness-0 h-7' : ''
               )}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
+              style={{ 
+                filter: navIsScrolled ? 'brightness(0)' : 'none',
+                maxWidth: navIsScrolled ? '40px' : '180px'
               }}
             />
-            <span 
-              className={cn(
-                'font-heading font-bold text-base tracking-tight',
-                navIsScrolled ? 'text-text' : 'text-white'
-              )}
-            >
-              BERGLUNDS
-            </span>
           </Link>
           <button
             onClick={() => setIsOpen(!isOpen)}

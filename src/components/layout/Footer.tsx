@@ -12,9 +12,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block">
-              <span className="font-heading text-2xl font-bold text-white">
-                Berglunds
-              </span>
+              <img 
+                src="/logo-original.png" 
+                alt="Berglunds Byggtjänst Östersund"
+                className="h-10 w-auto object-contain brightness-0 invert"
+              />
             </Link>
             <p className="mt-4 text-white/70 text-sm leading-relaxed">
               Kvalitetsbyggnation i Östersund och Jämtland. 
