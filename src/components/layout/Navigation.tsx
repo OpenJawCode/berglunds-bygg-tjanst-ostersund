@@ -8,6 +8,20 @@ import { siteConfig, services } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import gsap from 'gsap'
 
+// Subtle glow animation for active nav items - premium construction brand aesthetic
+const glowPulseKeyframes = `
+@keyframes glow-pulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 2px rgba(0, 184, 212, 0.3)) drop-shadow(0 0 4px rgba(0, 184, 212, 0.2));
+    opacity: 0.9;
+  }
+  50% { 
+    filter: drop-shadow(0 0 4px rgba(0, 184, 212, 0.4)) drop-shadow(0 0 8px rgba(0, 184, 212, 0.3));
+    opacity: 1;
+  }
+}
+`
+
 const serviceIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   takbyten: Home,
   badrumsrenovering: Bath,
@@ -67,6 +81,7 @@ function NavLink({ href, children, isActive, isScrolled }: NavLinkProps) {
         className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-[calc(100%-16px)] h-2 pointer-events-none overflow-visible"
         viewBox="0 0 100 8"
         preserveAspectRatio="none"
+        style={isActive ? { animation: 'glow-pulse 3s ease-in-out infinite' } : undefined}
       >
         <path
           ref={pathRef}
@@ -87,10 +102,8 @@ export default function Navigation() {
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const pathname = usePathname()
   const ctaRef = useRef<HTMLAnchorElement>(null)
-  
-  // Check if we're on the homepage - subpages need different nav styling
-  const isHomePage = pathname === '/'
 
+  // Scroll behavior - consistent across ALL pages
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80)
@@ -101,10 +114,6 @@ export default function Navigation() {
     
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-  
-  // On subpages, force "scrolled" appearance immediately (dark text on white bg)
-  // because subpages have light backgrounds
-  const navIsScrolled = isHomePage ? isScrolled : true
 
   useEffect(() => {
     if (isOpen) {
@@ -132,17 +141,20 @@ export default function Navigation() {
 
   return (
     <>
+      {/* Inject glow animation styles */}
+      <style>{glowPulseKeyframes}</style>
+      
       {/* Desktop Navigation - Floating Pill */}
       <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden md:block">
         <nav
           className={cn(
             'flex items-baseline justify-between rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]',
             'backdrop-blur-xl border shadow-lg',
-            navIsScrolled 
+            isScrolled 
               ? 'px-5 py-3 bg-white/95 border-gray-200/50 shadow-xl' 
               : 'px-6 py-4 bg-white/[0.07] border-white/[0.15] shadow-black/5'
           )}
-          style={{ minWidth: navIsScrolled ? '840px' : '920px' }}
+          style={{ minWidth: isScrolled ? '840px' : '920px' }}
         >
           {/* Logo - Full logo at top, compact monogram when scrolled */}
           <Link 
@@ -150,15 +162,15 @@ export default function Navigation() {
             className="transition-all duration-300 flex-shrink-0"
           >
             <img 
-              src={navIsScrolled ? "/logo-monogram.png" : "/logo-original.png"}
+              src={isScrolled ? "/logo-monogram.png" : "/logo-original.png"}
               alt="Berglunds Byggtjänst Östersund"
               className={cn(
                 'h-8 w-auto transition-all duration-300 object-contain',
-                navIsScrolled ? 'brightness-0 h-7' : ''
+                isScrolled ? 'brightness-0 h-7' : ''
               )}
               style={{ 
-                filter: navIsScrolled ? 'brightness(0)' : 'none',
-                maxWidth: navIsScrolled ? '40px' : '200px'
+                filter: isScrolled ? 'brightness(0)' : 'none',
+                maxWidth: isScrolled ? '40px' : '200px'
               }}
             />
           </Link>
@@ -176,11 +188,11 @@ export default function Navigation() {
                     <button
                       className={cn(
                         'flex items-baseline gap-1 px-3 py-2 text-sm font-medium transition-all duration-300 leading-none whitespace-nowrap',
-                        navIsScrolled
+                        isScrolled
                           ? 'text-text/70 hover:text-text'
                           : 'text-white/70 hover:text-white',
-                        isServicesOpen && (navIsScrolled ? 'text-text' : 'text-white'),
-                        isActive('/tjanster/') && (navIsScrolled ? 'text-text' : 'text-white')
+                        isServicesOpen && (isScrolled ? 'text-text' : 'text-white'),
+                        isActive('/tjanster/') && (isScrolled ? 'text-text' : 'text-white')
                       )}
                       style={{ letterSpacing: '0.06em' }}
                     >
@@ -192,6 +204,23 @@ export default function Navigation() {
                         )}
                       />
                     </button>
+
+                    {/* Active underline with glow for Tjänster */}
+                    {isActive('/tjanster/') && (
+                      <svg
+                        className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-[calc(100%-16px)] h-2 pointer-events-none overflow-visible"
+                        viewBox="0 0 100 8"
+                        preserveAspectRatio="none"
+                        style={{ animation: 'glow-pulse 3s ease-in-out infinite' }}
+                      >
+                        <path
+                          d="M 0,4 Q 50,4 100,4"
+                          stroke="#00B8D4"
+                          strokeWidth="1.5"
+                          fill="none"
+                        />
+                      </svg>
+                    )}
 
                     {/* Services Dropdown */}
                     <div
@@ -246,7 +275,7 @@ export default function Navigation() {
                   <NavLink 
                     href={item.href} 
                     isActive={isActive(item.href)}
-                    isScrolled={navIsScrolled}
+                    isScrolled={isScrolled}
                   >
                     {item.name}
                   </NavLink>
@@ -308,7 +337,7 @@ export default function Navigation() {
             'mx-4 mt-4 px-4 py-3 rounded-2xl transition-all duration-300',
             'backdrop-blur-xl border shadow-lg',
             'flex items-center justify-between',
-            navIsScrolled 
+            isScrolled 
               ? 'bg-white/95 border-gray-200/50 shadow-xl' 
               : 'bg-[#0D1117]/90 border-white/[0.15]'
           )}
@@ -318,15 +347,15 @@ export default function Navigation() {
             className="flex-shrink-0"
           >
             <img 
-              src={navIsScrolled ? "/logo-monogram.png" : "/logo-original.png"}
+              src={isScrolled ? "/logo-monogram.png" : "/logo-original.png"}
               alt="Berglunds Byggtjänst Östersund"
               className={cn(
                 'h-8 w-auto transition-all duration-300 object-contain',
-                navIsScrolled ? 'brightness-0 h-7' : ''
+                isScrolled ? 'brightness-0 h-7' : ''
               )}
               style={{ 
-                filter: navIsScrolled ? 'brightness(0)' : 'none',
-                maxWidth: navIsScrolled ? '40px' : '180px'
+                filter: isScrolled ? 'brightness(0)' : 'none',
+                maxWidth: isScrolled ? '40px' : '180px'
               }}
             />
           </Link>
@@ -334,16 +363,16 @@ export default function Navigation() {
             onClick={() => setIsOpen(!isOpen)}
             className={cn(
               'flex items-center justify-center w-11 h-11 rounded-full transition-colors',
-              navIsScrolled 
+              isScrolled 
                 ? 'hover:bg-gray-100' 
                 : 'hover:bg-white/10'
             )}
             aria-label={isOpen ? 'Stäng meny' : 'Öppna meny'}
           >
             {isOpen ? (
-              <X className={cn('w-6 h-6', navIsScrolled ? 'text-text' : 'text-white')} />
+              <X className={cn('w-6 h-6', isScrolled ? 'text-text' : 'text-white')} />
             ) : (
-              <Menu className={cn('w-6 h-6', navIsScrolled ? 'text-text' : 'text-white')} />
+              <Menu className={cn('w-6 h-6', isScrolled ? 'text-text' : 'text-white')} />
             )}
           </button>
         </div>

@@ -1,13 +1,22 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Footer from '@/components/layout/Footer'
-import { Section, SectionHeader } from '@/components/ui/Section'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Check, ArrowRight, Phone, Home, Bath, Building2, Hammer, Trees } from 'lucide-react'
 import { services, siteConfig } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import Link from 'next/link'
-import { ArrowLeft, Check, ArrowRight, Phone, Home, Bath, Building2, Hammer, Trees } from 'lucide-react'
+import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/Button'
-import Image from 'next/image'
+
+import { servicePageData, relatedServicesMap } from '@/lib/service-data'
+import { ProcessTimeline } from '@/components/service-page/ProcessTimeline'
+import { ServiceAccordion } from '@/components/service-page/ServiceAccordion'
+import { RotCalculator } from '@/components/service-page/RotCalculator'
+import { ServiceFAQ } from '@/components/service-page/ServiceFAQ'
+import { TrustBadgesStrip } from '@/components/service-page/TrustBadgesStrip'
+import { ServiceInlineCTA } from '@/components/service-page/ServiceInlineCTA'
+import { ServiceTimelineStats } from '@/components/service-page/ServiceTimelineStats'
+import { RelatedServices } from '@/components/service-page/RelatedServices'
 
 const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = {
   Home,
@@ -46,12 +55,13 @@ export default function ServicePage({ params }: ServicePageProps) {
     notFound()
   }
 
-  const otherServices = services.filter((s) => s.slug !== params.slug).slice(0, 3)
+  const pageData = servicePageData[params.slug]
+  const relatedSlugs = relatedServicesMap[params.slug] || []
 
   return (
     <>
       <main>
-        {/* Hero */}
+        {/* Hero - Light background, kept as is */}
         <section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-background-light">
           <div className="container-custom">
             {/* Breadcrumb */}
@@ -100,97 +110,30 @@ export default function ServicePage({ params }: ServicePageProps) {
           </div>
         </section>
 
-        {/* Features */}
-        <Section background="light" padding="lg">
-          <SectionHeader
-            title="Vad ingår?"
-            description={`Vi erbjuder kompletta lösningar inom ${service.title.toLowerCase()}. Här är vad du kan förvänta dig:`}
-          />
+        {/* Pattern Section - Process Timeline OR Service Accordion */}
+        {pageData.pattern === 'timeline' && pageData.timelineSteps ? (
+          <ProcessTimeline steps={pageData.timelineSteps} />
+        ) : pageData.pattern === 'accordion' && pageData.accordionItems ? (
+          <ServiceAccordion items={pageData.accordionItems} />
+        ) : null}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {service.features.map((feature, index) => (
-              <div
-                key={index}
-                className={cn(
-                  'flex items-start gap-4 p-6 rounded-2xl',
-                  'bg-white border border-[#E5E2DE]',
-                  'hover:shadow-lg hover:border-brand/20 transition-all duration-300'
-                )}
-              >
-                <div className="w-10 h-10 rounded-xl bg-brand/5 flex items-center justify-center flex-shrink-0">
-                  <Check className="w-5 h-5 text-brand" />
-                </div>
-                <span className="text-text font-medium">{feature}</span>
-              </div>
-            ))}
-          </div>
-        </Section>
+        {/* ROT Calculator */}
+        <RotCalculator />
 
-        {/* CTA Section */}
-        <Section background="primary" padding="lg">
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-6">
-              Vill du veta mer om {service.title.toLowerCase()}?
-            </h2>
-            <p className="text-white/90 text-lg mb-8">
-              Kontakta oss för en kostnadsfri konsultation. Vi hjälper dig att 
-              förverkliga dina planer.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/offert/">
-                <Button
-                  size="lg"
-                  className="bg-white text-brand hover:bg-white/90"
-                >
-                  Få en offert
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              <a
-                href={`tel:${siteConfig.phone.replace(/\s/g, '')}`}
-                className={cn(
-                  'inline-flex items-center gap-2 px-8 py-4 rounded-full',
-                  'border-2 border-white/30 text-white font-medium',
-                  'hover:bg-white/10 transition-all duration-300'
-                )}
-              >
-                <Phone className="w-5 h-5" />
-                Ring oss
-              </a>
-            </div>
-          </div>
-        </Section>
+        {/* FAQ Section */}
+        <ServiceFAQ faqs={pageData.faqs} />
+
+        {/* Trust Badges Strip */}
+        <TrustBadgesStrip />
+
+        {/* Inline Quote CTA */}
+        <ServiceInlineCTA />
+
+        {/* Timeline Stats */}
+        <ServiceTimelineStats stats={pageData.stats} />
 
         {/* Related Services */}
-        <Section background="light" padding="lg">
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-text mb-8 text-center">
-            Andra tjänster
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {otherServices.map((otherService) => (
-              <Link
-                key={otherService.slug}
-                href={`/tjanster/${otherService.slug}/`}
-                  className={cn(
-                    'group block bg-white rounded-2xl p-6',
-                    'border border-border',
-                    'hover:shadow-lg hover:border-brand/20 transition-all duration-300'
-                  )}
-              >
-                <h3 className="font-heading text-lg font-semibold text-text mb-2 group-hover:text-brand transition-colors">
-                  {otherService.title}
-                </h3>
-                <p className="text-text-muted text-sm mb-4">
-                  {otherService.shortDescription}
-                </p>
-                <span className="inline-flex items-center gap-1 text-brand text-sm font-medium">
-                  Läs mer
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </Section>
+        <RelatedServices relatedSlugs={relatedSlugs} />
       </main>
       <Footer />
     </>
