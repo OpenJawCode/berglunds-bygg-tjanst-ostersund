@@ -50,34 +50,34 @@ export default function Services() {
           description="Oavsett om du behöver hjälp med ett litet snickeriarbete eller en större nybyggnation, har vi kompetensen och erfarenheten att leverera resultat som överträffar dina förväntningar."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
           {services.map((service) => {
             const IconComponent = iconMap[service.icon] || Home
             
             return (
-              <Link
+                <Link
                 key={service.slug}
                 href={`/tjanster/${service.slug}/`}
                 className={cn(
-                  'service-card group block bg-white rounded-3xl p-8',
+                  'service-card group block bg-white rounded-3xl p-6 md:p-8',
                   'border border-[#E5E2DE] shadow-sm',
                   'transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]',
-                  'hover:shadow-xl hover:shadow-brand/5 hover:-translate-y-2 hover:border-brand/20',
+                  'hover:shadow-xl hover:shadow-earth/5 hover:-translate-y-2 hover:border-earth/20',
                   'opacity-0'
                 )}
               >
                 {/* Icon */}
                 <div className={cn(
                   'w-14 h-14 rounded-2xl flex items-center justify-center mb-6',
-                  'bg-brand/10 text-brand',
-                  'transition-all duration-300 group-hover:bg-brand group-hover:text-white',
+                  'bg-earth/5 text-earth',
+                  'transition-all duration-300 group-hover:bg-earth group-hover:text-white',
                   'group-hover:scale-110 group-hover:rotate-3'
                 )}>
                   <IconComponent className="w-7 h-7" />
                 </div>
 
                 {/* Content */}
-                <h3 className="font-heading text-xl font-semibold text-text mb-3 group-hover:text-brand transition-colors">
+                <h3 className="font-heading text-xl font-semibold text-text mb-3 group-hover:text-earth transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-text-muted text-sm leading-relaxed mb-4">
@@ -87,15 +87,15 @@ export default function Services() {
                 {/* Features Preview */}
                 <ul className="space-y-2 mb-6">
                   {service.features.slice(0, 3).map((feature, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-sm text-text-muted">
-                      <span className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
+                    <li key={idx} className="flex items-center gap-2 text-sm text-text-secondary leading-relaxed">
+                      <span className="w-1.5 h-1.5 rounded-full bg-earth/60 flex-shrink-0" />
                       {feature}
                     </li>
                   ))}
                 </ul>
 
                 {/* CTA */}
-                <div className="flex items-center gap-2 text-brand font-medium text-sm group/link">
+                <div className="flex items-center gap-2 text-earth font-medium text-sm group/link">
                   <span>Läs mer</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
                 </div>

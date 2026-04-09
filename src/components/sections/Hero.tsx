@@ -48,20 +48,20 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container-custom pt-32 pb-20 md:pt-40 md:pb-32">
+      <div className="relative z-10 container-custom pt-32 pb-24 md:pt-40 md:pb-36 lg:pb-44">
         <div className="max-w-4xl">
           {/* ROT Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8 animate-fade-up">
-            <Check className="w-4 h-4 text-accent" />
-            <span className="text-white text-sm font-medium">
+            <Check className="w-4 h-4 text-white/80" />
+            <span className="text-white/90 text-sm font-medium">
               ROT-avdrag gäller – spara 30% på arbetskostnaden
             </span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] mb-6 animate-fade-up animation-delay-100">
+          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 animate-fade-up animation-delay-100">
             Kvalitetsbyggnation<br />
-            <span className="text-accent">i Östersund</span>
+            <span className="text-white/90">i Östersund</span>
           </h1>
 
           {/* Subheadline */}

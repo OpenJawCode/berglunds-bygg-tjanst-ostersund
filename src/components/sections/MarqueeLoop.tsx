@@ -28,7 +28,7 @@ export default function MarqueeLoop() {
   return (
     <div
       ref={containerRef}
-      className="hidden md:block overflow-hidden py-4 bg-brand/5 border-y border-brand/10"
+      className="hidden md:block overflow-hidden py-6 bg-earth/5 border-y border-earth/10"
     >
       <div className="marquee-track flex items-center animate-marquee hover:[animation-play-state:paused]">
         {tripleItems.map((item, index) => (
@@ -37,10 +37,10 @@ export default function MarqueeLoop() {
             className={cn(
               'inline-flex items-center gap-3 whitespace-nowrap',
               'text-xs font-medium uppercase tracking-[0.15em]',
-              'text-brand px-6'
+              'text-earth px-6'
             )}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-brand" />
+            <span className="w-1.5 h-1.5 rounded-full bg-earth/60" />
             {item}
           </span>
         ))}

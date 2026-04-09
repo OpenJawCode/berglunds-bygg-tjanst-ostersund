@@ -55,7 +55,7 @@ export default function Footer() {
           {/* Tjänster */}
           <div>
             <h3 className="font-heading text-lg font-semibold mb-6">Tjänster</h3>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {services.map((service) => (
                 <li key={service.slug}>
                   <Link
@@ -72,7 +72,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h3 className="font-heading text-lg font-semibold mb-6">Snabblänkar</h3>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               <li>
                 <Link href="/" className="text-white/70 hover:text-white transition-colors text-sm">
                   Hem

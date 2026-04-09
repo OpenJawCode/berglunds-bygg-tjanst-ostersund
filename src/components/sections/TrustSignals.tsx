@@ -49,7 +49,7 @@ export default function TrustSignals() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-background-light border-y border-border">
+    <section ref={sectionRef} className="py-20 md:py-28 lg:py-32 bg-background-light border-y border-border">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {trustSignals.map((signal) => {
@@ -65,7 +65,7 @@ export default function TrustSignals() {
               >
                 <div className={cn(
                   'w-16 h-16 rounded-2xl flex items-center justify-center mb-5',
-                  'bg-brand/5 text-brand'
+                  'bg-earth/5 text-earth'
                 )}>
                   <IconComponent className="w-8 h-8" />
                 </div>

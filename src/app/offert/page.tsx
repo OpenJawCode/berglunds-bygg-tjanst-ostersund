@@ -18,7 +18,7 @@ export default function OffertPage() {
         {/* Hero */}
         <section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-background-light">
           <div className="container-custom text-center max-w-3xl">
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-text mb-6">
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-text mb-6">
               Få en kostnadsfri offert
             </h1>
             <p className="text-xl text-text-muted leading-relaxed">

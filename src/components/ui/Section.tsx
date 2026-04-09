@@ -20,10 +20,10 @@ export function Section({
   }
 
   const paddings = {
-    sm: 'py-12',
-    md: 'py-16',
-    lg: 'py-20 md:py-28',
-    xl: 'py-24 md:py-32',
+    sm: 'py-12 md:py-16',
+    md: 'py-16 md:py-24',
+    lg: 'py-20 md:py-28 lg:py-32',
+    xl: 'py-24 md:py-32 lg:py-40',
   }
 
   return (
@@ -61,13 +61,13 @@ export function SectionHeader({
       {eyebrow && (
         <span className={cn(
           'inline-block px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider mb-4',
-          light ? 'bg-white/10 text-white/80' : 'bg-brand/10 text-brand'
+          light ? 'bg-white/10 text-white/80' : 'bg-earth/5 text-earth'
         )}>
           {eyebrow}
         </span>
       )}
       <h2 className={cn(
-        'font-heading text-3xl md:text-4xl lg:text-5xl font-semibold',
+        'font-heading text-4xl md:text-5xl lg:text-6xl font-bold',
         light ? 'text-white' : 'text-text'
       )}>
         {title}

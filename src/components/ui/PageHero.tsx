@@ -32,7 +32,7 @@ export function PageHero({
         "container-custom max-w-3xl",
         align === 'center' && "text-center"
       )}>
-        <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-text mb-6">
+        <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-text mb-6">
           {title}
         </h1>
         {description && (

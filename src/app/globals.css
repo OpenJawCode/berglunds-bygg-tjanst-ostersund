@@ -38,8 +38,13 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2 {
     font-family: var(--font-cinzel), serif;
+    @apply font-bold tracking-tight;
+  }
+  
+  h3, h4, h5, h6 {
+    font-family: var(--font-plus-jakarta), sans-serif;
     @apply font-semibold tracking-tight;
   }
   
@@ -52,11 +57,11 @@
   }
   
   h3 {
-    @apply text-2xl leading-snug;
+    @apply text-xl md:text-2xl leading-snug font-semibold;
   }
   
   h4 {
-    @apply text-xl leading-snug;
+    @apply text-xl leading-snug font-medium;
   }
 }
 

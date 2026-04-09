@@ -34,7 +34,8 @@ module.exports = {
         border: '#E5E2DE',
         text: {
           DEFAULT: '#1A1A1A',
-          muted: '#6B6B6B',
+          muted: '#595959',
+          secondary: '#4A4A4A',
         },
       },
       fontFamily: {
