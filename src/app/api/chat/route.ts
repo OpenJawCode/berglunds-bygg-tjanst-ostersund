@@ -7,6 +7,25 @@ const RATE_LIMIT = 5 // requests per window
 const RATE_WINDOW = 60 * 60 * 1000 // 1 hour in ms
 const MAX_MESSAGE_LENGTH = 1000
 const MAX_HISTORY_MESSAGES = 10
+const MAX_REQUEST_SIZE = 10240 // 10KB
+const API_TIMEOUT = 15000 // 15 seconds
+
+// Allowed origins for CORS validation
+const ALLOWED_ORIGINS = [
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://berglundsbyggtjanst.se',
+  'https://berglundsbyggtjanst.se',
+  'http://localhost:3000',
+  'http://localhost:3001',
+]
+
+// Output sanitization patterns
+const OUTPUT_SANITIZE_PATTERNS = [
+  /<script[^>]*>[\s\S]*?<\/script>/gi,
+  /<iframe[^>]*>[\s\S]*?<\/iframe>/gi,
+  /<object[^>]*>[\s\S]*?<\/object>/gi,
+  /on\w+\s*=/gi, // event handlers
+  /javascript\s*:/gi,
+]
 
 // Prompt injection patterns to detect
 const INJECTION_PATTERNS = [
@@ -119,13 +138,67 @@ function cleanupOldEntries() {
 // Run cleanup every 5 minutes
 setInterval(cleanupOldEntries, 5 * 60 * 1000)
 
+// Get session fingerprint (IP + User-Agent hash)
+function getSessionFingerprint(request: NextRequest): string {
+  const ip = getClientIP(request)
+  const userAgent = request.headers.get('user-agent') || 'unknown'
+  // Simple hash combining IP and User-Agent
+  const raw = `${ip}|${userAgent}`
+  let hash = 0
+  for (let i = 0; i < raw.length; i++) {
+    const char = raw.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash // Convert to 32bit integer
+  }
+  return `${ip}:${hash.toString(36)}`
+}
+
+// Validate origin header
+function validateOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get('origin')
+  if (!origin) return true // Allow requests without origin (e.g., curl)
+  return ALLOWED_ORIGINS.includes(origin)
+}
+
+// Sanitize AI output to prevent XSS
+function sanitizeOutput(text: string): string {
+  let sanitized = text
+  OUTPUT_SANITIZE_PATTERNS.forEach(pattern => {
+    sanitized = sanitized.replace(pattern, '')
+  })
+  return sanitized
+}
+
+// Check for honeypot field (bot detection)
+function checkHoneypot(body: Record<string, unknown>): boolean {
+  return 'website' in body && typeof body.website === 'string' && body.website.length > 0
+}
+
 export async function POST(request: NextRequest) {
   try {
-    // Get client IP with better detection
-    const ip = getClientIP(request)
+    // Validate origin
+    if (!validateOrigin(request)) {
+      console.warn('Blocked request from invalid origin:', request.headers.get('origin'))
+      return NextResponse.json(
+        { error: 'Request not allowed' },
+        { status: 403 }
+      )
+    }
+
+    // Check request size
+    const contentLength = request.headers.get('content-length')
+    if (contentLength && parseInt(contentLength, 10) > MAX_REQUEST_SIZE) {
+      return NextResponse.json(
+        { error: 'Request too large' },
+        { status: 413 }
+      )
+    }
+
+    // Get session fingerprint for rate limiting
+    const sessionFingerprint = getSessionFingerprint(request)
     
-    // Rate limiting with detailed response
-    const rateCheck = checkRateLimit(ip)
+    // Rate limiting with session fingerprint
+    const rateCheck = checkRateLimit(sessionFingerprint)
     if (!rateCheck.allowed) {
       return NextResponse.json(
         { 
@@ -143,13 +216,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse and validate request body
-    let body: { message?: unknown; history?: unknown }
+    let body: Record<string, unknown>
     try {
       body = await request.json()
     } catch {
       return NextResponse.json(
         { error: 'Invalid JSON body' },
         { status: 400 }
+      )
+    }
+
+    // Honeypot check (bot detection)
+    if (checkHoneypot(body)) {
+      console.warn('Honeypot triggered from session:', sessionFingerprint)
+      return NextResponse.json(
+        { error: 'Request rejected' },
+        { status: 403 }
       )
     }
 
@@ -168,10 +250,8 @@ export async function POST(request: NextRequest) {
 
     // Check for prompt injection
     if (containsPromptInjection(sanitizedMessage)) {
-      // Log suspicious activity but don't reveal detection
-      console.warn('Potential prompt injection detected from IP:', ip)
+      console.warn('Potential prompt injection detected from session:', sessionFingerprint)
       
-      // Return a safe generic response
       return NextResponse.json(
         { 
           reply: 'Jag förstod inte det. Kan du omformulera din fråga?' 
@@ -180,25 +260,29 @@ export async function POST(request: NextRequest) {
     }
 
     // Sanitize history
-    const sanitizedHistory = sanitizeHistory(history as { role: string; content: string }[] | undefined)
+    const sanitizedHistory = sanitizeHistory(history)
 
-    // OpenRouter API call with enhanced security headers
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://berglundsbyggtjanst.se',
-        'X-Title': 'Berglunds Byggtjänst Chat',
-        // Additional security headers
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-      body: JSON.stringify({
-        model: 'google/gemini-flash-1.5',
-        messages: [
-          {
-            role: 'system',
-            content: `Du är en hjälpsam assistent för Berglunds Byggtjänst Östersund, ett lokalt byggföretag i Jämtland.
+    // OpenRouter API call with timeout and enhanced security headers
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT)
+
+    try {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://berglundsbyggtjanst.se',
+          'X-Title': 'Berglunds Byggtjänst Chat',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          model: 'google/gemini-flash-1.5',
+          messages: [
+            {
+              role: 'system',
+              content: `Du är en hjälpsam assistent för Berglunds Byggtjänst Östersund, ett lokalt byggföretag i Jämtland.
 
 FÖRETAGSINFORMATION:
 - Namn: Berglunds Byggtjänst Östersund
@@ -218,46 +302,60 @@ VIKTIGA REGLER:
 6. Håll svaren korta och koncisa (max 2-3 meningar)
 
 NUVARANDE KONVERSATION: Du samlar in information för en offertförfrågan.`,
-          },
-          ...sanitizedHistory,
-          {
-            role: 'user',
-            content: sanitizedMessage,
-          },
-        ],
-        max_tokens: 300,
-        temperature: 0.7,
-      }),
-    })
+            },
+            ...sanitizedHistory,
+            {
+              role: 'user',
+              content: sanitizedMessage,
+            },
+          ],
+          max_tokens: 300,
+          temperature: 0.7,
+        }),
+      })
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('OpenRouter API error:', response.status, errorText)
-      
-      // Handle specific error codes
-      if (response.status === 429) {
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('OpenRouter API error:', response.status, errorText)
+        
+        if (response.status === 429) {
+          return NextResponse.json(
+            { error: 'Tjänsten är temporärt överbelastad. Försök igen om en stund.' },
+            { status: 503 }
+          )
+        }
+        
+        throw new Error(`OpenRouter API error: ${response.status}`)
+      }
+
+      const data = await response.json()
+      let reply = data.choices[0]?.message?.content || 'Ursäkta, jag kunde inte bearbeta din fråga.'
+
+      // Sanitize output to prevent XSS
+      reply = sanitizeOutput(reply)
+
+      // Return response with rate limit headers
+      return NextResponse.json(
+        { reply },
+        {
+          headers: {
+            'X-RateLimit-Remaining': String(rateCheck.remaining),
+            'X-RateLimit-Reset': String(rateCheck.resetTime)
+          }
+        }
+      )
+    } catch (fetchError) {
+      clearTimeout(timeoutId)
+      if (fetchError instanceof Error && fetchError.name === 'AbortError') {
         return NextResponse.json(
-          { error: 'Tjänsten är temporärt överbelastad. Försök igen om en stund.' },
-          { status: 503 }
+          { error: 'Begäran tog för lång tid. Försök igen.' },
+          { status: 504 }
         )
       }
-      
-      throw new Error(`OpenRouter API error: ${response.status}`)
+      throw fetchError
     }
-
-    const data = await response.json()
-    const reply = data.choices[0]?.message?.content || 'Ursäkta, jag kunde inte bearbeta din fråga.'
-
-    // Return response with rate limit headers
-    return NextResponse.json(
-      { reply },
-      {
-        headers: {
-          'X-RateLimit-Remaining': String(rateCheck.remaining),
-          'X-RateLimit-Reset': String(rateCheck.resetTime)
-        }
-      }
-    )
   } catch (error) {
     console.error('Chat API error:', error)
     return NextResponse.json(
