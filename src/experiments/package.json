@@ -1,0 +1,6 @@
+{
+  "name": "experiments",
+  "version": "1.0.0",
+  "description": "Sandbox for testing new background components and visual experiments",
+  "private": true
+}

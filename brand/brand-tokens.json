@@ -3,15 +3,21 @@
   "version": "1.0.0",
   "colors": {
     "primary": {
+      "DEFAULT": "#00B8D4",
+      "light": "#33C6DC",
+      "dark": "#0096AD",
+      "description": "Cyan from logo — brand identity, energy, construction"
+    },
+    "accent": {
+      "DEFAULT": "#008A9C",
+      "light": "#00C8E6",
+      "description": "Elevated teal accent — modern, Scandinavian feel"
+    },
+    "secondary": {
       "DEFAULT": "#1E3A5F",
       "light": "#2D4A6F",
       "dark": "#152A47",
-      "description": "Deep navy blue from logo — authority, trust, professionalism"
-    },
-    "accent": {
-      "DEFAULT": "#4A90A4",
-      "light": "#5BA0B4",
-      "description": "Elevated teal accent — modern, Scandinavian feel"
+      "description": "Deep navy blue — authority, trust (used sparingly)"
     },
     "earth": {
       "DEFAULT": "#2C2419",
