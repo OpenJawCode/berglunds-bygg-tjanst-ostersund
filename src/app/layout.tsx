@@ -3,6 +3,7 @@ import { Cinzel, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 import Navigation from '@/components/layout/Navigation'
 import PageTransition from '@/components/layout/PageTransition'
+import { GlobalQuoteLauncher } from '@/components/global'
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -84,6 +85,7 @@ export default function RootLayout({
         <PageTransition>
           {children}
         </PageTransition>
+        <GlobalQuoteLauncher />
       </body>
     </html>
   )
