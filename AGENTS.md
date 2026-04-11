@@ -161,16 +161,22 @@ All other subpages use Unsplash. Never reuse the same image across subpages.
 
 ---
 
-## 🤖 RAG AGENT
+## 🤖 RAG AGENT (Multimodal)
 
 > Full spec, model config, Pinecone setup, env vars:
 > **`/docs/rag-agent-spec.md`**
 
 Quick reference:
 - Chat: Gemini Flash via OpenRouter → `OPENROUTER_API_KEY`
-- Embeddings: Google Embedding 2 → `GOOGLE_EMBEDDING_API_KEY` (separate — not OpenRouter)
+- Multimodal chat endpoint: `/api/chat/multimodal`
+- Image upload endpoint: `/api/upload-image` (Vercel Blob storage)
+- Embeddings: Gemini Embedding 2 (multimodal) → `GOOGLE_EMBEDDING_API_KEY` (separate — not OpenRouter)
 - Vector: Pinecone serverless → `PINECONE_API_KEY`
+- Image storage: Vercel Blob → `BLOB_READ_WRITE_TOKEN`
 - Emails: Resend → `RESEND_API_KEY`
+- Seed projects: `/src/lib/seed-projects.ts` (10 demo projects)
+- Ingestion: `npx tsx src/scripts/ingest-seed-projects.ts`
+- Fallback: keyword matching when Pinecone is unavailable
 
 ---
 

@@ -4,36 +4,22 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
-
-interface ServiceOption {
-  value: string
-  label: string
-}
+import { SERVICE_OPTIONS, ServiceOption } from '@/lib/services'
 
 interface ServiceSelectProps {
   value: string
   onChange: (value: string) => void
   placeholder?: string
   options?: ServiceOption[]
+  variant?: 'default' | 'chips' | 'dropdown'
 }
-
-const DEFAULT_SERVICES = [
-  { value: 'takbyten', label: '🏠 Takbyten' },
-  { value: 'badrumsrenovering', label: '🚿 Badrumsrenovering' },
-  { value: 'köksrenovering', label: '🍳 Köksrenovering' },
-  { value: 'nybyggnation', label: '🏗️ Nybyggnation' },
-  { value: 'tillbyggnad', label: '📐 Tillbyggnad' },
-  { value: 'ombyggnation', label: '🔧 Ombyggnation' },
-  { value: 'snickeri', label: '🪵 Snickeriarbeten' },
-  { value: 'fasad', label: '🏢 Fasadarbeten' },
-  { value: 'annat', label: '❓ Annat' },
-]
 
 export function ServiceSelect({
   value,
   onChange,
   placeholder = 'Välj tjänst...',
-  options = DEFAULT_SERVICES
+  options = SERVICE_OPTIONS,
+  variant = 'default'
 }: ServiceSelectProps) {
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
@@ -50,6 +36,37 @@ export function ServiceSelect({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // Chips variant for mobile-friendly horizontal scroll
+  if (variant === 'chips') {
+    return (
+      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        {options.map((option) => {
+          const Icon = option.icon
+          const isSelected = option.value === value
+          return (
+            <motion.button
+              key={option.value}
+              type="button"
+              onClick={() => onChange(option.value)}
+              whileTap={{ scale: 0.95 }}
+              className={cn(
+                'flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap',
+                'border transition-all duration-200',
+                'focus:outline-none focus:ring-2 focus:ring-brand/30',
+                isSelected
+                  ? 'bg-brand text-white border-brand'
+                  : 'bg-white/5 text-white/80 border-white/10 hover:bg-white/10 hover:border-white/20'
+              )}
+            >
+              <Icon className={cn('w-4 h-4', isSelected ? 'text-white' : 'text-brand')} />
+              <span className="text-sm font-medium">{option.label}</span>
+            </motion.button>
+          )
+        })}
+      </div>
+    )
+  }
+
   return (
     <div ref={selectRef} className="relative w-full">
       {/* Trigger Button */}
@@ -61,12 +78,28 @@ export function ServiceSelect({
           'bg-white/5 border border-border text-white',
           'hover:border-brand/50 hover:bg-white/10',
           'transition-all duration-200',
+          'focus:outline-none focus:ring-2 focus:ring-brand/20',
           isOpen && 'border-brand ring-2 ring-brand/20'
         )}
       >
-        <span className={cn('text-sm', selectedOption ? 'text-white' : 'text-white/50')}>
-          {selectedOption ? selectedOption.label : placeholder}
-        </span>
+        <div className="flex items-center gap-3">
+          {selectedOption && (
+            <div className={cn(
+              'w-8 h-8 rounded-lg flex items-center justify-center',
+              'bg-brand/20'
+            )}>
+              <selectedOption.icon className="w-4 h-4 text-brand" />
+            </div>
+          )}
+          <div className="text-left">
+            <span className={cn('text-sm block', selectedOption ? 'text-white' : 'text-white/50')}>
+              {selectedOption ? selectedOption.label : placeholder}
+            </span>
+            {selectedOption && (
+              <span className="text-xs text-white/40">{selectedOption.description}</span>
+            )}
+          </div>
+        </div>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
@@ -89,36 +122,48 @@ export function ServiceSelect({
               'max-h-64 overflow-y-auto'
             )}
           >
-            {options.map((option, index) => (
-              <motion.button
-                key={option.value}
-                type="button"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.05 }}
-                onClick={() => {
-                  onChange(option.value)
-                  setIsOpen(false)
-                }}
-                className={cn(
-                  'w-full flex items-center justify-between px-4 py-3 text-left',
-                  'text-sm transition-colors',
-                  option.value === value
-                    ? 'text-brand bg-brand/10'
-                    : 'text-white/80 hover:bg-white/5 hover:text-white'
-                )}
-              >
-                <span>{option.label}</span>
-                {option.value === value && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                  >
-                    <Check className="w-4 h-4 text-brand" />
-                  </motion.div>
-                )}
-              </motion.button>
-            ))}
+            {options.map((option, index) => {
+              const Icon = option.icon
+              return (
+                <motion.button
+                  key={option.value}
+                  type="button"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.03 }}
+                  onClick={() => {
+                    onChange(option.value)
+                    setIsOpen(false)
+                  }}
+                  className={cn(
+                    'w-full flex items-center gap-3 px-4 py-3 text-left',
+                    'transition-colors',
+                    option.value === value
+                      ? 'text-brand bg-brand/10'
+                      : 'text-white/80 hover:bg-white/5 hover:text-white'
+                  )}
+                >
+                  <div className={cn(
+                    'w-8 h-8 rounded-lg flex items-center justify-center',
+                    option.value === value ? 'bg-brand/20' : 'bg-white/5'
+                  )}>
+                    <Icon className={cn('w-4 h-4', option.value === value ? 'text-brand' : 'text-white/60')} />
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-sm font-medium block">{option.label}</span>
+                    <span className="text-xs text-white/40">{option.description}</span>
+                  </div>
+                  {option.value === value && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                    >
+                      <Check className="w-4 h-4 text-brand" />
+                    </motion.div>
+                  )}
+                </motion.button>
+              )
+            })}
           </motion.div>
         )}
       </AnimatePresence>
