@@ -135,21 +135,22 @@ export default function StepDetails({ data, onChange, onNext, onBack }: StepDeta
               exit={{ height: 0 }}
               className="px-4 pb-4"
             >
-              <div className="grid grid-cols-2 gap-2">
+              <div className="space-y-2">
                 {BUDGET_OPTIONS.map((option) => (
                   <button
                     key={option.value}
                     type="button"
                     onClick={() => handleBudgetSelect(option.value)}
                     className={cn(
-                      'p-3 rounded-lg text-xs text-left transition-all duration-200',
+                      'w-full p-3 rounded-lg text-left transition-all duration-200',
                       'border',
                       data.budget === option.value
                         ? 'bg-brand/10 border-brand/30 text-white'
-                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
+                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                     )}
                   >
-                    {option.label}
+                    <p className="text-sm font-medium text-white">{option.label}</p>
+                    <p className="text-xs text-white/40 mt-0.5">{option.description}</p>
                   </button>
                 ))}
               </div>
@@ -204,21 +205,24 @@ export default function StepDetails({ data, onChange, onNext, onBack }: StepDeta
               exit={{ height: 0 }}
               className="px-4 pb-4"
             >
-              <div className="grid grid-cols-2 gap-2">
-                {TIMELINE_OPTIONS.map((option) => (
+              <div className="space-y-2">
+                {PROPERTY_OWNER_OPTIONS.map((option) => (
                   <button
                     key={option.value}
                     type="button"
-                    onClick={() => handleTimelineSelect(option.value)}
+                    onClick={() => handlePropertySelect(option.value as 'yes' | 'no' | 'planning')}
                     className={cn(
-                      'p-3 rounded-lg text-xs text-left transition-all duration-200',
+                      'w-full p-3 rounded-lg text-left transition-all duration-200',
                       'border',
-                      data.timeline === option.value
+                      (data.isPropertyOwner === true && option.value === 'yes') ||
+                      (data.isPropertyOwner === false && option.value === 'no') ||
+                      (data.isPropertyOwner === undefined && option.value === 'planning')
                         ? 'bg-brand/10 border-brand/30 text-white'
-                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
+                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                     )}
                   >
-                    {option.label}
+                    <p className="text-sm font-medium text-white">{option.label}</p>
+                    <p className="text-xs text-white/40 mt-0.5">{option.description}</p>
                   </button>
                 ))}
               </div>

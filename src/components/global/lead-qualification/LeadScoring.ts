@@ -118,25 +118,25 @@ export function getCategoryAction(category: LeadScore['category']): {
 }
 
 export const BUDGET_OPTIONS = [
-  { value: 'under_50k', label: 'Under 50 000 kr' },
-  { value: '50k_100k', label: '50 000 - 100 000 kr' },
-  { value: '100k_200k', label: '100 000 - 200 000 kr' },
-  { value: '200k_500k', label: '200 000 - 500 000 kr' },
-  { value: 'over_500k', label: 'Över 500 000 kr' },
-  { value: 'vet_ej', label: 'Vet ej / Behöver rådgivning' },
+  { value: 'under_50k', label: 'Under 50 000 kr', description: 'Mindre renoveringar och reparationer' },
+  { value: '50k_100k', label: '50 000 - 100 000 kr', description: 'Badrum eller köksrenovering i mindre skala' },
+  { value: '100k_200k', label: '100 000 - 200 000 kr', description: 'Större badrums- eller köksrenoveringar' },
+  { value: '200k_500k', label: '200 000 - 500 000 kr', description: 'Omfattande renoveringar eller tillbyggnader' },
+  { value: 'over_500k', label: 'Över 500 000 kr', description: 'Större nybyggnationer och stora projekt' },
+  { value: 'vet_ej', label: 'Vet ej / Behöver rådgivning', description: 'Vi hjälper dig att ta reda på det!' },
 ]
 
 export const TIMELINE_OPTIONS = [
-  { value: 'asap', label: 'Så snart som möjligt' },
-  { value: '1_månad', label: 'Inom 1 månad' },
-  { value: '2_månader', label: 'Inom 2 månader' },
-  { value: '3_månader', label: 'Inom 3 månader' },
-  { value: '6_månader', label: 'Inom 6 månader' },
-  { value: 'vet_ej', label: 'Flexibel / Vet ej' },
+  { value: 'asap', label: 'Så snart som möjligt', description: 'Akut eller brådskande' },
+  { value: '1_månad', label: 'Inom 1 månad', description: 'Planerar snart' },
+  { value: '2_månader', label: 'Inom 2 månader', description: 'Inom närmaste tid' },
+  { value: '3_månader', label: 'Inom 3 månader', description: 'Har lite tid' },
+  { value: '6_månader', label: 'Inom 6 månader', description: 'Längre fram i planeringen' },
+  { value: 'vet_ej', label: 'Flexibel / Vet ej', description: 'Vi hittar en lösning!' },
 ]
 
 export const PROPERTY_OWNER_OPTIONS = [
-  { value: 'yes', label: 'Ja, jag äger fastigheten' },
-  { value: 'no', label: 'Nej, jag hyr' },
-  { value: 'planning', label: 'Jag planerar att köpa' },
+  { value: 'yes', label: 'Ja, jag äger fastigheten', description: 'Du kan få ROT-avdrag (30% rabatt)' },
+  { value: 'no', label: 'Nej, jag hyr', description: 'Vi hjälper dig med lösningar' },
+  { value: 'planning', label: 'Jag planerar att köpa', description: 'Vi kan hjälpa med kostnadsuppskattning' },
 ]
