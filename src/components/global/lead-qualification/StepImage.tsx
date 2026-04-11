@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Image as ImageIcon, X, Upload, Camera, Sparkles, Check, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -18,21 +18,52 @@ interface StepImageProps {
 export default function StepImage({ data, onChange, onNext, onBack }: StepImageProps) {
   const [isUploading, setIsUploading] = useState(false)
 
+  // Cleanup object URLs to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      data.images.forEach(img => {
+        if (img.preview.startsWith('blob:')) {
+          URL.revokeObjectURL(img.preview)
+        }
+      })
+    }
+  }, [])
+
   const handleImageSelect = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
     if (files.length === 0) return
+
+    // Validate file types
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    const invalidFiles = files.filter(f => !validTypes.includes(f.type))
+    if (invalidFiles.length > 0) {
+      alert('Endast JPG, PNG, WebP och GIF är tillåtna')
+      return
+    }
+
+    // Validate file sizes (max 10MB each)
+    const maxSize = 10 * 1024 * 1024 // 10MB
+    const oversizedFiles = files.filter(f => f.size > maxSize)
+    if (oversizedFiles.length > 0) {
+      alert('Max 10MB per bild')
+      return
+    }
+
+    // Limit total images
+    if (data.images.length + files.length > 5) {
+      alert('Max 5 bilder tillåtet')
+      return
+    }
 
     setIsUploading(true)
     haptic.medium()
 
     const newImages = await Promise.all(
       files.map(async (file) => {
-        return new Promise<{ file: File; preview: string }>((resolve) => {
-          const reader = new FileReader()
-          reader.onload = () => {
-            resolve({ file, preview: reader.result as string })
-          }
-          reader.readAsDataURL(file)
+        return new Promise<{ file: File; preview: string }>((resolve, reject) => {
+          // Use URL.createObjectURL instead of base64 for memory efficiency
+          const preview = URL.createObjectURL(file)
+          resolve({ file, preview })
         })
       })
     )

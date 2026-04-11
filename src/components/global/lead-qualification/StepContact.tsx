@@ -21,7 +21,6 @@ interface StepContactProps {
 export default function StepContact({ data, onChange, onNext, onBack }: StepContactProps) {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
-  const [isValidating, setIsValidating] = useState(false)
 
   const validateField = useCallback((field: string, value: string): string | null => {
     switch (field) {

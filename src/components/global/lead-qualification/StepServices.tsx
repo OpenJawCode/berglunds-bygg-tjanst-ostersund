@@ -302,7 +302,21 @@ export default function StepServices({ data, onChange, onNext, onBack }: StepSer
                       <input
                         type="text"
                         placeholder="Ditt svar..."
-                        onChange={(e) => onChange({ description: data.description + '\n' + question + ': ' + e.target.value })}
+                onChange={(e) => {
+                  const newValue = e.target.value
+                  const existing = data.description || ''
+                  // Replace this specific question's answer or append
+                  const questionPrefix = question + ': '
+                  if (existing.includes(questionPrefix)) {
+                    // Replace existing answer for this question
+                    const updated = existing.replace(new RegExp(questionPrefix + '.*?(?=\\n|$)'), questionPrefix + newValue)
+                    onChange({ description: updated })
+                  } else {
+                    // Append new answer
+                    const separator = existing ? '\n' : ''
+                    onChange({ description: existing + separator + questionPrefix + newValue })
+                  }
+                }}
                         className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 text-sm focus:outline-none focus:border-brand/50"
                       />
                     </motion.div>
