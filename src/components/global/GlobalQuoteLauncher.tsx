@@ -9,10 +9,12 @@ import { services } from '@/lib/constants'
 import { formatPhoneToE164, isValidSwedishPhone } from '@/lib/phone-utils'
 import QuoteWizard from '@/components/global/QuoteWizard'
 import QuoteChat from '@/components/global/QuoteChat'
+import LeadQualification from '@/components/global/LeadQualification'
 import { Confetti } from '@/components/ui/Confetti'
 import { AnimatedButton } from '@/components/ui/AnimatedButton'
+import { LeadData, LeadScore } from '@/components/global/lead-qualification/LeadScoring'
 
-type ModalStep = 'choice' | 'wizard' | 'chat' | 'success'
+type ModalStep = 'choice' | 'qualification' | 'wizard' | 'chat' | 'success'
 
 interface FormData {
   name: string
@@ -139,6 +141,73 @@ export default function GlobalQuoteLauncher() {
     }
   }
 
+  const handleQualificationComplete = async (result: {
+    leadData: LeadData
+    score: LeadScore
+  }) => {
+    const { leadData, score } = result
+    
+    // For HOT leads - show phone CTA (already shown in LeadQualification)
+    // For WARM/COLD - submit lead and show success
+    if (score.category === 'HOT') {
+      // HOT leads see the phone CTA directly - close modal
+      setModalStep('success')
+      setShowConfetti(true)
+      
+      // Still submit to API for tracking
+      try {
+        const phoneE164 = formatPhoneToE164(leadData.phone)
+        await fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: leadData.name,
+            email: leadData.email,
+            phone: phoneE164,
+            postal_code: leadData.postal_code,
+            project_type: leadData.services[0] || '',
+            description: leadData.description,
+            source: 'qualification',
+            lead_score: score.total,
+            lead_category: score.category,
+            agent_id: 'agent_2cddb47efe7325ad729c41f6d2',
+          }),
+        })
+      } catch (error) {
+        console.error('Lead submit error:', error)
+      }
+    } else {
+      // WARM/COLD - submit lead
+      try {
+        const phoneE164 = formatPhoneToE164(leadData.phone)
+        const response = await fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: leadData.name,
+            email: leadData.email,
+            phone: phoneE164,
+            postal_code: leadData.postal_code,
+            project_type: leadData.services[0] || '',
+            description: leadData.description,
+            source: 'qualification',
+            lead_score: score.total,
+            lead_category: score.category,
+            agent_id: 'agent_2cddb47efe7325ad729c41f6d2',
+          }),
+        })
+
+        if (!response.ok) throw new Error('Nätverksfel')
+        
+        setModalStep('success')
+        setShowConfetti(true)
+      } catch (error) {
+        console.error('Lead submit error:', error)
+        alert('Något gick fel. Försök igen.')
+      }
+    }
+  }
+
   const handleClose = () => {
     setIsOpen(false)
     setIsFullscreen(false)
@@ -261,6 +330,7 @@ export default function GlobalQuoteLauncher() {
                     className="font-heading text-xl font-semibold text-white"
                   >
                     {modalStep === 'choice' && 'Välj hur du vill komma igång'}
+                    {modalStep === 'qualification' && 'Få en offert'}
                     {modalStep === 'wizard' && 'Få en offert'}
                     {modalStep === 'chat' && 'Chatta med vår AI-assistent'}
                     {modalStep === 'success' && 'Tack för din förfrågan!'}
@@ -268,7 +338,7 @@ export default function GlobalQuoteLauncher() {
                 </div>
                 <div className="flex items-center gap-2">
                   {/* Fullscreen toggle (not for chat - it's auto fullscreen) */}
-                  {modalStep !== 'chat' && modalStep !== 'success' && (
+                    {modalStep !== 'chat' && modalStep !== 'success' && (
                     <motion.button
                       onClick={toggleFullscreen}
                       whileHover={{ scale: 1.1 }}
@@ -318,7 +388,7 @@ export default function GlobalQuoteLauncher() {
                       className="grid grid-cols-1 md:grid-cols-2 gap-4"
                     >
                       {/* Quick Form Card */}
-                      <TiltCard onClick={() => handleStepChange('wizard')}>
+                      <TiltCard onClick={() => handleStepChange('qualification')}>
                         <div className="w-12 h-12 rounded-xl bg-brand/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                           <motion.div
                             whileHover={{ scale: 1.1, rotate: 5 }}
@@ -328,10 +398,10 @@ export default function GlobalQuoteLauncher() {
                           </motion.div>
                         </div>
                         <h3 className="font-heading text-lg font-semibold text-white mb-2">
-                          📝 Snabbt formulär
+                          Snabbt formulär
                         </h3>
                         <p className="text-white/70 text-sm mb-4">
-                          Fyll i 3 fält på 30 sekunder. Vi ringer upp dig.
+                          Fyll i dina uppgifter steg för steg. Vi ringer upp dig.
                         </p>
                         <motion.div 
                           className="flex items-center text-brand text-sm font-medium"
@@ -352,7 +422,7 @@ export default function GlobalQuoteLauncher() {
                           </motion.div>
                         </div>
                         <h3 className="font-heading text-lg font-semibold text-white mb-2">
-                          💬 AI-chatt
+                          AI-chatt
                         </h3>
                         <p className="text-white/70 text-sm mb-4">
                           Prata med vår AI som hjälper dig steg för steg.
@@ -381,6 +451,22 @@ export default function GlobalQuoteLauncher() {
                         onSubmit={handleSubmit}
                         onBack={() => handleStepChange('choice')}
                         isSubmitting={isSubmitting}
+                      />
+                    </motion.div>
+                  )}
+
+                  {modalStep === 'qualification' && (
+                    <motion.div
+                      key="qualification"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3 }}
+                      className={isFullscreen ? 'max-w-2xl mx-auto py-8 px-6' : ''}
+                    >
+                      <LeadQualification
+                        onComplete={handleQualificationComplete}
+                        onBack={() => handleStepChange('choice')}
                       />
                     </motion.div>
                   )}

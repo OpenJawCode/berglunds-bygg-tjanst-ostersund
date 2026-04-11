@@ -72,6 +72,14 @@ export const haptic = {
   imageUploaded: () => {
     if (!supportsVibration() || prefersReducedMotion()) return
     navigator.vibrate([10, 30, 10])
+  },
+
+  /**
+   * Selection feedback - for list/option selections
+   */
+  selection: () => {
+    if (!supportsVibration() || prefersReducedMotion()) return
+    navigator.vibrate(8)
   }
 }
 
