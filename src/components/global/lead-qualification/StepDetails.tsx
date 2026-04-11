@@ -206,17 +206,15 @@ export default function StepDetails({ data, onChange, onNext, onBack }: StepDeta
               className="px-4 pb-4"
             >
               <div className="space-y-2">
-                {PROPERTY_OWNER_OPTIONS.map((option) => (
+                {TIMELINE_OPTIONS.map((option) => (
                   <button
                     key={option.value}
                     type="button"
-                    onClick={() => handlePropertySelect(option.value as 'yes' | 'no' | 'planning')}
+                    onClick={() => handleTimelineSelect(option.value)}
                     className={cn(
                       'w-full p-3 rounded-lg text-left transition-all duration-200',
                       'border',
-                      (data.isPropertyOwner === true && option.value === 'yes') ||
-                      (data.isPropertyOwner === false && option.value === 'no') ||
-                      (data.isPropertyOwner === undefined && option.value === 'planning')
+                      data.timeline === option.value
                         ? 'bg-brand/10 border-brand/30 text-white'
                         : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                     )}
