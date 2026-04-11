@@ -375,9 +375,11 @@ export default function GlobalQuoteLauncher() {
 
               {/* Modal Content */}
               <div className={cn(
-                isFullscreen ? 'h-[calc(100vh-80px)]' : 'p-6 min-h-[400px]'
+                'flex flex-col overflow-hidden',
+                isFullscreen ? 'h-[calc(100vh-80px)]' : 'p-6 min-h-[400px] max-h-[70vh]'
               )}>
-                <AnimatePresence mode="wait">
+                <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                  <AnimatePresence mode="wait">
                   {modalStep === 'choice' && (
                     <motion.div
                       key="choice"
@@ -551,6 +553,7 @@ export default function GlobalQuoteLauncher() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+                </div>
               </div>
             </motion.div>
           </motion.div>
