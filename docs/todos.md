@@ -1,53 +1,75 @@
 # Todos — Berglunds Byggtjänst
 
-## 🚀 Immediate (Ready to Build)
-- [x] Create GlobalQuoteLauncher component
-- [x] Create QuoteWizard multi-step form
-- [x] Create QuoteChat RAG UI
-- [x] Update /api/quote to forward to n8n
-- [x] Create phone-utils.ts for E.164 formatting
-- [x] Create leads-sheet-template.md for Google Sheets structure
-- [ ] Inject GlobalQuoteLauncher into layout.tsx
-- [ ] Update /offert/ page to use shared QuoteWizard
-- [ ] Test end-to-end flow with n8n webhook
+## ✅ Completed (Ready)
 
-## ⏳ Pending Client Approval
-- [ ] Set up Resend API key for transactional emails
-  - Sign up at https://resend.com
-  - Verify domain: berglundsbyggtjanst.se
-  - Add RESEND_API_KEY to .env.local
-- [ ] Create Google Sheet "Berglunds Leads" with template structure
-  - Share with service account for n8n access
-  - Or use n8n Google Sheets node with OAuth
-- [ ] Configure n8n workflow:
-  - Webhook trigger: POST /webhook/bergunds-lead
-  - Node 1: Append to Google Sheets
-  - Node 2: Send email via Resend (15s delay)
-  - Node 3: Trigger Retell outbound call with dynamic variables
-  - Node 4: Handle post-call webhook to update Sheets
-- [ ] Test Retell agent `agent_2cddb47efe7325ad729c41f6d2` with outbound flow
-- [ ] Add rate limiting + spam protection to /api/quote
+### Core Features
+- [x] GlobalQuoteLauncher component with modal
+- [x] QuoteWizard multi-step form
+- [x] QuoteChat RAG AI UI
+- [x] Lead Qualification Pipeline (4 steps + scoring)
+- [x] Image upload with validation
+- [x] Phone number formatting (E.164)
+- [x] Honeypot spam protection
 
-## 🔐 Security & Compliance
-- [ ] Add GDPR consent checkbox to QuoteWizard
-- [ ] Add privacy policy link in modal footer
-- [ ] Sanitize all user inputs server-side
-- [ ] Log API errors without exposing PII
-- [ ] Add webhook signature verification for n8n ↔ Retell
+### Backend
+- [x] /api/quote → n8n webhook
+- [x] /api/chat/multimodal → RAG + Gemini
+- [x] /api/upload-image → Vercel Blob + Gemini Vision
+- [x] Pinecone client + embeddings
+- [x] Seed projects for similarity search
 
-## 🧪 Testing
-- [ ] Unit tests for phone-utils.ts
-- [ ] Integration test: form submit → n8n webhook → Sheets
-- [ ] E2E test: QuoteChat → lead extraction → Retell trigger
-- [ ] Mobile responsive test for modal on <768px
-- [ ] Accessibility test: keyboard navigation, screen reader labels
-
-## 📊 Analytics (Optional Later)
-- [ ] Track modal open rate (floating button clicks)
-- [ ] Track form vs chat conversion rate
-- [ ] Track time-to-submit for wizard steps
-- [ ] Add UTM parameters to lead source tracking
+### Code Quality
+- [x] Build passes
+- [x] TypeScript checks pass
+- [x] Code review fixes applied
 
 ---
-*Last updated: 2025-01-15*
-*Owner approval needed for: Resend, Google Sheets, n8n workflow config*
+
+## 🚧 Waiting on Client
+
+### Google Cloud Setup (REQUIRED)
+The client needs to create/configure their Google Cloud Project:
+
+1. **Go to Google Cloud Console** (console.cloud.google.com)
+2. **Create or select project** for Berglunds
+3. **Enable APIs:**
+   - Gemini API (for embeddings + chat)
+   - (Optional) Cloud Storage API
+4. **Create API Key:**
+   - Credentials → API Keys → Create
+   - **Restriction:** Set to HTTP referer: `berglundsbyggtjanst.se`
+5. **Copy key** → Give to us for Vercel env vars
+
+### Google Sheets (Future - Optional)
+- Client creates their own Google Sheet
+- Share with our email OR use n8n with OAuth
+- No cost - their existing account
+
+### Resend (Future - Optional)
+- For transactional emails
+- Client signs up at resend.com ($19/mo)
+- We configure the emails
+
+---
+
+## 📋 Next Steps After Client Provides Keys
+
+1. Add API keys to Vercel
+2. Run seed ingestion script
+3. Test end-to-end flow
+4. Set up n8n workflow (we build, client hosts)
+5. Optional: Add Resend emails
+
+---
+
+## 🔐 Security Notes
+
+- All API keys stored in Vercel (server-side only)
+- No client-side secrets exposed
+- Honeypot field catches bots
+- Input validation on all forms
+
+---
+
+*Last updated: 2026-04-11*
+*Status: Awaiting Google Cloud API keys from client*
